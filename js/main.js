@@ -275,6 +275,50 @@
     return true;
   }
 
+  /* --- MECHANICAL KEYBOARD SOUND (Web Audio API) --- */
+  var audioCtx = null;
+
+  function playKeySound() {
+    if (!audioCtx) {
+      try {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      } catch (e) { return; }
+    }
+
+    var now = audioCtx.currentTime;
+
+    // Click noise burst (white noise, very short)
+    var bufferSize = Math.floor(audioCtx.sampleRate * 0.025);
+    var noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    var data = noiseBuffer.getChannelData(0);
+    for (var i = 0; i < bufferSize; i++) {
+      // Shape: sharp attack, fast decay
+      var envelope = Math.exp(-i / (bufferSize * 0.08));
+      data[i] = (Math.random() * 2 - 1) * envelope;
+    }
+
+    var noiseSource = audioCtx.createBufferSource();
+    noiseSource.buffer = noiseBuffer;
+
+    // Bandpass filter — gives it that plastic/mechanical character
+    var filter = audioCtx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.value = 3000 + Math.random() * 1500;
+    filter.Q.value = 1.5;
+
+    // Gain — keep it subtle
+    var gain = audioCtx.createGain();
+    gain.gain.setValueAtTime(0.08 + Math.random() * 0.04, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
+
+    noiseSource.connect(filter);
+    filter.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    noiseSource.start(now);
+    noiseSource.stop(now + 0.04);
+  }
+
   /* --- NAME MODAL --- */
   function initNameModal() {
     var modal = document.getElementById('name-modal');
@@ -290,6 +334,12 @@
       setTimeout(function () { modal.style.display = 'none'; }, 500);
       return;
     }
+
+    // Keyboard sound on each keypress
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') return;
+      playKeySound();
+    });
 
     function confirmName() {
       var name = input.value.trim();
@@ -436,8 +486,8 @@
           buttons.forEach(function (b) {
             if (b.getAttribute('data-versao') === claim.versao) {
               b.classList.add('selected');
-              b.textContent = 'SEU PERSONAGEM';
-              b.disabled = true;
+              b.textContent = 'DESMARCAR';
+              b.disabled = false;
             } else {
               b.disabled = true;
               b.textContent = '';
@@ -447,7 +497,7 @@
           // Inject locked badge
           var lockedBadge = document.createElement('div');
           lockedBadge.className = 'locked-badge';
-          lockedBadge.innerHTML = '\u2588 SEU REGISTRO \u2588 ' + claim.versao.toUpperCase();
+          lockedBadge.innerHTML = '\u2588 SEU REGISTRO \u2588 ' + claim.versao.toUpperCase() + ' <span class="locked-hint">(clique para desmarcar)</span>';
           card.appendChild(lockedBadge);
 
         } else {
@@ -479,12 +529,47 @@
     });
   }
 
+  /* --- HANDLE DESELECT --- */
+  function handleDeselect(arquetipo, versao) {
+    if (!db || !playerName) return;
+
+    // Disable buttons during operation
+    var allButtons = document.querySelectorAll('.btn-selecionar');
+    allButtons.forEach(function (b) { b.disabled = true; });
+
+    // Delete from Supabase (only own selection)
+    db.from('selections')
+      .delete()
+      .eq('arquetipo', arquetipo)
+      .eq('player_name', playerName)
+      .then(function (result) {
+        if (result.error) {
+          console.error('Erro ao desmarcar:', result.error);
+          loadSelections();
+          return;
+        }
+
+        // Clear localStorage
+        localStorage.removeItem('limiar_selection');
+        document.body.classList.remove('player-locked');
+
+        // Realtime will trigger renderSelections
+        loadSelections();
+      });
+  }
+
   /* --- HANDLE SELECT --- */
   function handleSelect(arquetipo, versao) {
     if (!db || !playerName) return;
 
-    // Check if player already selected
+    // Check if player is deselecting their own choice
     var mySelection = JSON.parse(localStorage.getItem('limiar_selection') || 'null');
+    if (mySelection && mySelection.arquetipo === arquetipo && mySelection.versao === versao) {
+      handleDeselect(arquetipo, versao);
+      return;
+    }
+
+    // Player already selected something else
     if (mySelection) return;
 
     // Check if archetype is already claimed locally
@@ -555,11 +640,114 @@
   function initCharacterSelection() {
     var buttons = document.querySelectorAll('.btn-selecionar');
     buttons.forEach(function (btn) {
-      btn.addEventListener('click', function () {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
         var arquetipo = btn.getAttribute('data-arquetipo');
         var versao = btn.getAttribute('data-versao');
         handleSelect(arquetipo, versao);
       });
+    });
+  }
+
+  /* --- FICHA MODAL (CHARACTER SHEET) --- */
+  function initFichaModal() {
+    var modal = document.getElementById('ficha-modal');
+    var overlay = modal.querySelector('.ficha-overlay');
+    var btnFechar = document.getElementById('ficha-fechar');
+    var fichaImg = document.getElementById('ficha-img');
+    var fichaNome = document.getElementById('ficha-nome');
+    var fichaArqLabel = document.getElementById('ficha-arquetipo-label');
+    var fichaAparencia = document.getElementById('ficha-aparencia');
+    var fichaDesc = document.getElementById('ficha-desc');
+    var fichaMedalhao = document.getElementById('ficha-medalhao');
+    var fichaItem = document.getElementById('ficha-item');
+    var fichaFoco = document.getElementById('ficha-foco');
+
+    var fichaOcupacao = document.getElementById('ficha-ocupacao');
+    var fichaAttrDia = document.getElementById('ficha-attr-dia');
+    var fichaAttrNoite = document.getElementById('ficha-attr-noite');
+    var fichaAttrProfundo = document.getElementById('ficha-attr-profundo');
+    var fichaValDia = document.getElementById('ficha-val-dia');
+    var fichaValNoite = document.getElementById('ficha-val-noite');
+    var fichaValProfundo = document.getElementById('ficha-val-profundo');
+
+    function openFicha(card) {
+      // Read data from the versao-card
+      fichaImg.src = card.getAttribute('data-img') || '';
+      fichaImg.alt = card.getAttribute('data-nome') || '';
+      fichaNome.innerHTML = card.getAttribute('data-nome') || '';
+      fichaArqLabel.innerHTML = card.getAttribute('data-arq-label') || '';
+      fichaAparencia.innerHTML = card.getAttribute('data-aparencia') || '';
+      fichaDesc.innerHTML = card.getAttribute('data-historia') || '';
+      fichaMedalhao.innerHTML = card.getAttribute('data-medalhao') || '';
+      fichaItem.innerHTML = card.getAttribute('data-item') || '';
+      fichaOcupacao.innerHTML = card.getAttribute('data-ocupacao') || '';
+
+      // Attributes (1-5 scale, bar width as percentage of max 5)
+      var dia = parseInt(card.getAttribute('data-dia') || '0', 10);
+      var noite = parseInt(card.getAttribute('data-noite') || '0', 10);
+      var profundo = parseInt(card.getAttribute('data-profundo') || '0', 10);
+
+      fichaValDia.textContent = dia;
+      fichaValNoite.textContent = noite;
+      fichaValProfundo.textContent = profundo;
+
+      // Animate bars after a short delay
+      fichaAttrDia.style.width = '0%';
+      fichaAttrNoite.style.width = '0%';
+      fichaAttrProfundo.style.width = '0%';
+
+      setTimeout(function () {
+        fichaAttrDia.style.width = (dia / 5 * 100) + '%';
+        fichaAttrNoite.style.width = (noite / 5 * 100) + '%';
+        fichaAttrProfundo.style.width = (profundo / 5 * 100) + '%';
+      }, 400);
+
+      // TV turn-on animation: line → expand
+      modal.classList.add('active', 'step1');
+      modal.classList.remove('step2');
+
+      setTimeout(function () {
+        modal.classList.remove('step1');
+        modal.classList.add('step2');
+      }, 200);
+
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeFicha() {
+      modal.classList.remove('step2');
+      modal.classList.add('step1');
+
+      setTimeout(function () {
+        modal.classList.remove('active', 'step1');
+        document.body.style.overflow = '';
+      }, 300);
+    }
+
+    // Click on portrait or info area opens the ficha
+    var versaoCards = document.querySelectorAll('.versao-card');
+    versaoCards.forEach(function (card) {
+      var portrait = card.querySelector('.versao-portrait');
+      var info = card.querySelector('.versao-info');
+
+      function handleClick() {
+        // Don't open if the card is unavailable
+        if (card.classList.contains('indisponivel')) return;
+        openFicha(card);
+      }
+
+      if (portrait) portrait.addEventListener('click', handleClick);
+      if (info) info.addEventListener('click', handleClick);
+    });
+
+    // Close handlers
+    btnFechar.addEventListener('click', closeFicha);
+    overlay.addEventListener('click', closeFicha);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeFicha();
+      }
     });
   }
 
@@ -572,6 +760,7 @@
     initNavBar();
     initSectionReveal();
     initVHSTimestamp();
+    initFichaModal();
 
     if (!prefersReducedMotion) {
       initStaticNoise();
