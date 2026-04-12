@@ -1575,6 +1575,7 @@ body.player-locked .arquetipo-card.my-selection .btn-selecionar.selected {
   object-position: top center;
   filter: contrast(1.05) brightness(0.9) saturate(0.8);
   display: block;
+  transition: opacity 0.3s ease;
 }
 
 .ficha-foto-static {

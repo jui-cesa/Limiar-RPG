@@ -672,8 +672,18 @@
     var fichaValProfundo = document.getElementById('ficha-val-profundo');
 
     function openFicha(card) {
-      // Read data from the versao-card
-      fichaImg.src = card.getAttribute('data-img') || '';
+      // Reset image to prevent showing previous character
+      fichaImg.style.opacity = '0';
+      fichaImg.src = '';
+
+      var newSrc = card.getAttribute('data-img') || '';
+      var tempImg = new Image();
+      tempImg.onload = function () {
+        fichaImg.src = newSrc;
+        fichaImg.style.opacity = '1';
+      };
+      tempImg.src = newSrc;
+
       fichaImg.alt = card.getAttribute('data-nome') || '';
       fichaNome.innerHTML = card.getAttribute('data-nome') || '';
       fichaArqLabel.innerHTML = card.getAttribute('data-arq-label') || '';
