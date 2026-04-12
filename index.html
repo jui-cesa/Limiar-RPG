@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Limiar: Controle de Danos — Uma campanha de RPG de terror analógico ambientada em Morro Alto, interior do Rio de Janeiro, no fim dos anos 90.">
+  <meta property="og:title" content="Limiar: Controle de Danos">
+  <meta property="og:description" content="Terror analógico no interior do Rio de Janeiro. Final dos anos 90. Algo saiu do controle.">
+  <meta property="og:type" content="website">
+  <title>LIMIAR — Controle de Danos</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- PRELOADER -->
+  <div id="preloader">
+    <div class="preloader-static"></div>
+    <div class="preloader-content">
+      <span class="preloader-play">&#9654; PLAY</span>
+    </div>
+  </div>
+
+  <!-- CANVAS DE RUÍDO ESTÁTICO -->
+  <canvas id="static-noise"></canvas>
+
+  <!-- VHS TRACKING BAND -->
+  <div id="vhs-tracking"></div>
+
+  <!-- VHS TIMESTAMP -->
+  <div id="vhs-timestamp">
+    <span class="rec-dot">&#9679;</span> REC <span id="vhs-time">23:47:00</span> 12.SET.1999
+  </div>
+
+  <!-- NAVEGAÇÃO -->
+  <nav id="nav-bar">
+    <a href="#hero" class="nav-link">INÍCIO</a>
+    <a href="#mundo" class="nav-link">TRANSMISSÃO</a>
+    <a href="#personagens" class="nav-link">REGISTROS</a>
+    <a href="#sistema" class="nav-link">PROTOCOLO</a>
+  </nav>
+
+  <!-- SEÇÃO 1: HERO -->
+  <section id="hero">
+    <div class="hero-content">
+      <h1 class="glitch" data-text="LIMIAR">LIMIAR</h1>
+      <p class="hero-subtitle">Controle de Danos</p>
+      <div class="hero-divider"></div>
+      <p class="hero-tagline" data-corrupt>
+        Morro Alto, interior do Rio de Janeiro.<br>
+        Final dos anos 90.<br>
+        Algo saiu do controle. Algo continua fora de controle.
+      </p>
+    </div>
+    <div class="scroll-indicator">
+      <span>&#9660;</span>
+    </div>
+  </section>
+
+  <!-- SEÇÃO 2: O MUNDO -->
+  <section id="mundo" class="section-reveal">
+    <div class="section-header">
+      <span class="broadcast-label">&#9608; TRANSMISSÃO &#9608;</span>
+      <h2 class="glitch" data-text="MORRO ALTO, RJ">MORRO ALTO, RJ</h2>
+    </div>
+
+    <div class="tv-frame">
+      <div class="tv-content">
+        <div class="mundo-block">
+          <h3 class="mundo-label">// LOCALIDADE</h3>
+          <p data-corrupt>
+            Uma cidade pequena como tantas outras. Ruas de terra, antenas parabólicas, igrejas e botecos.
+            Cercada de morros e mata atlântica, Morro Alto vive no ritmo lento do interior fluminense —
+            onde todo mundo se conhece e os segredos não ficam guardados por muito tempo.
+          </p>
+          <p data-corrupt>
+            Ou pelo menos era assim. Ultimamente, os segredos parecem ter vida própria.
+          </p>
+        </div>
+
+        <div class="mundo-block">
+          <h3 class="mundo-label">// ÉPOCA</h3>
+          <p data-corrupt>
+            Final dos anos 90. A internet ainda é discada e rara por aqui. A televisão é o centro da casa,
+            a antena parabólica puxa sinais de todo canto — e às vezes puxa coisas que não deveria.
+            O celular é artigo de luxo. As notícias chegam pelo rádio, pela fofoca no bar,
+            pela missa de domingo.
+          </p>
+          <p data-corrupt>
+            Aqui, quando o sinal cai, você fica sozinho de verdade.
+          </p>
+        </div>
+
+        <div class="mundo-block">
+          <h3 class="mundo-label">// O ESTRANHO</h3>
+          <p data-corrupt>
+            Mas em Morro Alto, o sinal nunca chega direito. E as coisas que aparecem na estática...
+            não deveriam estar lá. Rostos que ninguém reconhece. Vozes em frequências que
+            nenhuma rádio transmite. Gravações em fitas VHS que ninguém lembra de ter feito.
+          </p>
+          <p data-corrupt>
+            Algo aconteceu aqui. Algo que deixou marcas. E agora, as marcas estão se abrindo de novo.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEÇÃO 3: PERSONAGENS -->
+  <section id="personagens" class="section-reveal">
+    <div class="section-header">
+      <span class="broadcast-label">&#9608; ELENCO &#9608;</span>
+      <h2 class="glitch" data-text="REGISTROS">REGISTROS</h2>
+      <p class="section-subtitle">Escolha um personagem. O arqu&eacute;tipo inteiro ser&aacute; reservado para voc&ecirc;.</p>
+      <p class="selection-status" id="selection-status"></p>
+    </div>
+
+    <div class="arquetipo-list">
+
+      <!-- ============================================ -->
+      <!-- ARQUÉTIPO 1: O OLHAR (CÂMERA) -->
+      <!-- ============================================ -->
+      <div class="arquetipo-card section-reveal" data-arquetipo="olhar">
+        <div class="card-static-overlay"></div>
+
+        <div class="arquetipo-header">
+          <span class="arquetipo-numero">01</span>
+          <div class="arquetipo-titulo">
+            <h3 class="glitch" data-text="O OLHAR">O OLHAR</h3>
+            <span class="arquetipo-subtipo">C&acirc;mera &mdash; 19 anos</span>
+          </div>
+          <span class="arquetipo-foco">FOCO: <strong>DEEP</strong></span>
+        </div>
+
+        <div class="arquetipo-item-unico">
+          <span class="item-label">ITEM &Uacute;NICO:</span>
+          <span class="item-nome">Handycam Hi8</span>
+          <span class="item-desc">&mdash; essencial para ver o que o olho humano ignora.</span>
+        </div>
+
+        <div class="arquetipo-versoes">
+          <!-- DANILO -->
+          <div class="versao-card" data-versao="danilo" data-arquetipo="olhar">
+            <div class="versao-portrait">
+              <div class="portrait-placeholder"><span>DANILO</span></div>
+            </div>
+            <div class="versao-info">
+              <h4 class="versao-nome">DANILO</h4>
+              <p class="versao-aparencia">Moreno, cabelo raspadinho. Sempre com a c&acirc;mera na m&atilde;o.</p>
+              <p class="versao-desc">O &ldquo;skatista da base&rdquo;. Gosta de se filmar fazendo manobras de skate. Filho do dono da locadora &mdash; conhece cada canto do lugar.</p>
+              <div class="versao-medalhao">
+                <span class="medalhao-label">MEDALH&Atilde;O:</span>
+                O shape do seu primeiro skate &mdash; representa sua liberdade.
+              </div>
+            </div>
+            <button class="btn-selecionar" data-versao="danilo" data-arquetipo="olhar">SELECIONAR</button>
+          </div>
+
+          <div class="versao-divisor">
+            <span>OU</span>
+          </div>
+
+          <!-- LUIZA -->
+          <div class="versao-card" data-versao="luiza" data-arquetipo="olhar">
+            <div class="versao-portrait">
+              <div class="portrait-placeholder"><span>LUIZA</span></div>
+            </div>
+            <div class="versao-info">
+              <h4 class="versao-nome">LUIZA</h4>
+              <p class="versao-aparencia">Asi&aacute;tica morena de cabelos lisos. Sempre em movimento.</p>
+              <p class="versao-desc">A &ldquo;observadora estrangeira&rdquo;. Se mudou para o Brasil recentemente e chegou h&aacute; pouco na cidade. Tem dificuldade em fazer amizades. Sua c&acirc;mera &eacute; sua &uacute;nica amiga. Ama gravar a natureza.</p>
+              <div class="versao-medalhao">
+                <span class="medalhao-label">MEDALH&Atilde;O:</span>
+                Uma fita com sons da natureza do seu pa&iacute;s de origem &mdash; sua conex&atilde;o com as ra&iacute;zes.
+              </div>
+            </div>
+            <button class="btn-selecionar" data-versao="luiza" data-arquetipo="olhar">SELECIONAR</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================ -->
+      <!-- ARQUÉTIPO 2: A MEMÓRIA (CINÉFILO DA LOCADORA) -->
+      <!-- ============================================ -->
+      <div class="arquetipo-card section-reveal" data-arquetipo="memoria">
+        <div class="card-static-overlay"></div>
+
+        <div class="arquetipo-header">
+          <span class="arquetipo-numero">02</span>
+          <div class="arquetipo-titulo">
+            <h3 class="glitch" data-text="A MEMÓRIA">A MEM&Oacute;RIA</h3>
+            <span class="arquetipo-subtipo">Cin&eacute;filo da Locadora &mdash; 20 anos</span>
+          </div>
+          <span class="arquetipo-foco">FOCO: <strong>DAY / DEEP</strong></span>
+        </div>
+
+        <div class="arquetipo-item-unico">
+          <span class="item-label">ITEM &Uacute;NICO:</span>
+          <span class="item-nome">Cadastro Geral de Clientes</span>
+          <span class="item-desc">&mdash; sabe quem alugou cada fita por &uacute;ltimo.</span>
+        </div>
+
+        <div class="arquetipo-versoes">
+          <!-- RICARDO -->
+          <div class="versao-card" data-versao="ricardo" data-arquetipo="memoria">
+            <div class="versao-portrait">
+              <div class="portrait-placeholder"><span>RICARDO</span></div>
+            </div>
+            <div class="versao-info">
+              <h4 class="versao-nome">RICARDO</h4>
+              <p class="versao-aparencia">Branco, cabelos ondulados e &oacute;culos.</p>
+              <p class="versao-desc">Entusiasta de Slasher. Seu filme preferido &eacute; P&acirc;nico. Analisa os perigos como se fossem clich&ecirc;s de filme. Trabalha na locadora e n&atilde;o quer outra vida.</p>
+              <div class="versao-medalhao">
+                <span class="medalhao-label">MEDALH&Atilde;O:</span>
+                O p&ocirc;ster original de P&acirc;nico autografado &mdash; sua b&uacute;ssola moral.
+              </div>
+            </div>
+            <button class="btn-selecionar" data-versao="ricardo" data-arquetipo="memoria">SELECIONAR</button>
+          </div>
+
+          <div class="versao-divisor">
+            <span>OU</span>
+          </div>
+
+          <!-- HELENA -->
+          <div class="versao-card" data-versao="helena" data-arquetipo="memoria">
+            <div class="versao-portrait">
+              <div class="portrait-placeholder"><span>HELENA</span></div>
+            </div>
+            <div class="versao-info">
+              <h4 class="versao-nome">HELENA</h4>
+              <p class="versao-aparencia">Negra, cabelos brancos e longos.</p>
+              <p class="versao-desc">F&atilde; de terror psicol&oacute;gico. Seu filme preferido &eacute; O Iluminado. Percebe as nuances da mente e do ambiente. Trabalha na locadora e n&atilde;o quer outra vida.</p>
+              <div class="versao-medalhao">
+                <span class="medalhao-label">MEDALH&Atilde;O:</span>
+                Uma chave de hotel antiga que ela usa como amuleto &mdash; representa o isolamento.
+              </div>
+            </div>
+            <button class="btn-selecionar" data-versao="helena" data-arquetipo="memoria">SELECIONAR</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================ -->
+      <!-- ARQUÉTIPO 3: O ASFALTO (PILOTO) -->
+      <!-- ============================================ -->
+      <div class="arquetipo-card section-reveal" data-arquetipo="asfalto">
+        <div class="card-static-overlay"></div>
+
+        <div class="arquetipo-header">
+          <span class="arquetipo-numero">03</span>
+          <div class="arquetipo-titulo">
+            <h3 class="glitch" data-text="O ASFALTO">O ASFALTO</h3>
+            <span class="arquetipo-subtipo">Piloto &mdash; 22-23 anos</span>
+          </div>
+          <span class="arquetipo-foco">FOCO: <strong>NIGHT</strong></span>
+        </div>
+
+        <div class="arquetipo-item-unico">
+          <span class="item-label">ITEM &Uacute;NICO:</span>
+          <span class="item-nome">O Ve&iacute;culo</span>
+          <span class="item-desc">&mdash; base m&oacute;vel do grupo e &uacute;nica forma de fuga r&aacute;pida.</span>
+        </div>
+
+        <div class="arquetipo-versoes">
+          <!-- BRYAN -->
+          <div class="versao-card" data-versao="bryan" data-arquetipo="asfalto">
+            <div class="versao-portrait">
+              <div class="portrait-placeholder"><span>BRYAN</span></div>
+            </div>
+            <div class="versao-info">
+              <h4 class="versao-nome">BRYAN <span class="versao-idade">22 anos</span></h4>
+              <p class="versao-aparencia">Branco, cabelos escuros. Sempre de bon&eacute;.</p>
+              <p class="versao-desc">O protetor. Entrega pizzas nas noites com o seu Gol branco quadrado. Comprou o carro com o dinheiro que seu pai guardou para a faculdade. Perdeu os pais e mora com a irm&atilde; adotiva: Bruna.</p>
+              <div class="versao-medalhao">
+                <span class="medalhao-label">MEDALH&Atilde;O:</span>
+                A foto dos pais no para-sol do carro &mdash; sua responsabilidade.
+              </div>
+            </div>
+            <button class="btn-selecionar" data-versao="bryan" data-arquetipo="asfalto">SELECIONAR</button>
+          </div>
+
+          <div class="versao-divisor">
+            <span>OU</span>
+          </div>
+
+          <!-- BRUNA -->
+          <div class="versao-card" data-versao="bruna" data-arquetipo="asfalto">
+            <div class="versao-portrait">
+              <div class="portrait-placeholder"><span>BRUNA</span></div>
+            </div>
+            <div class="versao-info">
+              <h4 class="versao-nome">BRUNA <span class="versao-idade">23 anos</span></h4>
+              <p class="versao-aparencia">Morena, cabelo curto e liso.</p>
+              <p class="versao-desc">A rebelde. Entrega pizzas no seu Opala preto &agrave; noite. Comprou o carro com o dinheiro que seu pai guardou para a faculdade. Perdeu os pais e mora com o irm&atilde;o mais novo: Bryan.</p>
+              <div class="versao-medalhao">
+                <span class="medalhao-label">MEDALH&Atilde;O:</span>
+                O rel&oacute;gio de pulso que era do seu pai &mdash; seu controle sobre o tempo.
+              </div>
+            </div>
+            <button class="btn-selecionar" data-versao="bruna" data-arquetipo="asfalto">SELECIONAR</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================ -->
+      <!-- ARQUÉTIPO 4: O CÓDIGO (RATO DE LAN HOUSE) -->
+      <!-- ============================================ -->
+      <div class="arquetipo-card section-reveal" data-arquetipo="codigo">
+        <div class="card-static-overlay"></div>
+
+        <div class="arquetipo-header">
+          <span class="arquetipo-numero">04</span>
+          <div class="arquetipo-titulo">
+            <h3 class="glitch" data-text="O CÓDIGO">O C&Oacute;DIGO</h3>
+            <span class="arquetipo-subtipo">Rato de Lan House &mdash; 18 anos</span>
+          </div>
+          <span class="arquetipo-foco">FOCO: <strong>DEEP</strong></span>
+        </div>
+
+        <div class="arquetipo-item-unico">
+          <span class="item-label">ITEM &Uacute;NICO:</span>
+          <span class="item-nome">Bip (Pager) Modificado</span>
+          <span class="item-desc">&mdash; capta frequ&ecirc;ncias de r&aacute;dio n&atilde;o autorizadas.</span>
+        </div>
+
+        <div class="arquetipo-versoes">
+          <!-- LÉO -->
+          <div class="versao-card" data-versao="leo" data-arquetipo="codigo">
+            <div class="versao-portrait">
+              <div class="portrait-placeholder"><span>L&Eacute;O</span></div>
+            </div>
+            <div class="versao-info">
+              <h4 class="versao-nome">L&Eacute;O <span class="versao-idade">(Leonardo)</span></h4>
+              <p class="versao-aparencia">Baixinho e cabeludo. Usa bon&eacute; para esconder.</p>
+              <p class="versao-desc">O hacker invis&iacute;vel. Desempregado que vive em f&oacute;runs. Seus f&oacute;runs s&atilde;o mais reais que a cidade. O hacker da turma.</p>
+              <div class="versao-medalhao">
+                <span class="medalhao-label">MEDALH&Atilde;O:</span>
+                O primeiro modem de 14.4k que ele ganhou &mdash; sua porta para o mundo.
+              </div>
+            </div>
+            <button class="btn-selecionar" data-versao="leo" data-arquetipo="codigo">SELECIONAR</button>
+          </div>
+
+          <div class="versao-divisor">
+            <span>OU</span>
+          </div>
+
+          <!-- NAT -->
+          <div class="versao-card" data-versao="nat" data-arquetipo="codigo">
+            <div class="versao-portrait">
+              <div class="portrait-placeholder"><span>NAT</span></div>
+            </div>
+            <div class="versao-info">
+              <h4 class="versao-nome">NAT <span class="versao-idade">(Nat&aacute;lia)</span></h4>
+              <p class="versao-aparencia">Baixinha, branca e ruiva. Tem sardas e usa bon&eacute;.</p>
+              <p class="versao-desc">A ruiva sardenta que sabe demais. Esconde sua intelig&ecirc;ncia atr&aacute;s do bon&eacute;. Desempregada que vive em f&oacute;runs. A hacker da turma.</p>
+              <div class="versao-medalhao">
+                <span class="medalhao-label">MEDALH&Atilde;O:</span>
+                Um disquete contendo um c&oacute;digo que ela nunca conseguiu quebrar.
+              </div>
+            </div>
+            <button class="btn-selecionar" data-versao="nat" data-arquetipo="codigo">SELECIONAR</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================ -->
+      <!-- ARQUÉTIPO 5: A NOTÍCIA (UNIVERSITÁRIO DE JORNALISMO) -->
+      <!-- ============================================ -->
+      <div class="arquetipo-card section-reveal" data-arquetipo="noticia">
+        <div class="card-static-overlay"></div>
+
+        <div class="arquetipo-header">
+          <span class="arquetipo-numero">05</span>
+          <div class="arquetipo-titulo">
+            <h3 class="glitch" data-text="A NOTÍCIA">A NOT&Iacute;CIA</h3>
+            <span class="arquetipo-subtipo">Universit&aacute;rio de Jornalismo &mdash; 21 anos</span>
+          </div>
+          <span class="arquetipo-foco">FOCO: <strong>DAY</strong></span>
+        </div>
+
+        <div class="arquetipo-item-unico">
+          <span class="item-label">ITEM &Uacute;NICO:</span>
+          <span class="item-nome">C&acirc;mera Polaroid</span>
+          <span class="item-desc">&mdash; revela pistas instant&acirc;neas que n&atilde;o podem ser editadas.</span>
+        </div>
+
+        <div class="arquetipo-versoes">
+          <!-- GUILHERME -->
+          <div class="versao-card" data-versao="guilherme" data-arquetipo="noticia">
+            <div class="versao-portrait">
+              <div class="portrait-placeholder"><span>GUILHERME</span></div>
+            </div>
+            <div class="versao-info">
+              <h4 class="versao-nome">GUILHERME</h4>
+              <p class="versao-aparencia">Pele escura, cabelo grande, esnobe.</p>
+              <p class="versao-desc">Esnobe e rico. Carrega uma c&acirc;mera polaroid e uma gravadora. Tem bastante dinheiro. Quer o furo de reportagem que o tire da sombra da fam&iacute;lia. Prefere passar o tempo longe dela.</p>
+              <div class="versao-medalhao">
+                <span class="medalhao-label">MEDALH&Atilde;O:</span>
+                O gravador de voz caro &mdash; seu poder de dar voz &agrave; verdade.
+              </div>
+            </div>
+            <button class="btn-selecionar" data-versao="guilherme" data-arquetipo="noticia">SELECIONAR</button>
+          </div>
+
+          <div class="versao-divisor">
+            <span>OU</span>
+          </div>
+
+          <!-- MONIQUE -->
+          <div class="versao-card" data-versao="monique" data-arquetipo="noticia">
+            <div class="versao-portrait">
+              <div class="portrait-placeholder"><span>MONIQUE</span></div>
+            </div>
+            <div class="versao-info">
+              <h4 class="versao-nome">MONIQUE</h4>
+              <p class="versao-aparencia">Pele escura, cabelo grande, esnobe.</p>
+              <p class="versao-desc">Independente e ambiciosa. Carrega uma c&acirc;mera polaroid e uma gravadora. Tem bastante dinheiro. Usa sua polaroid para registrar o que o dinheiro n&atilde;o compra. Prefere passar o tempo longe da fam&iacute;lia.</p>
+              <div class="versao-medalhao">
+                <span class="medalhao-label">MEDALH&Atilde;O:</span>
+                Uma foto polaroid da sua formatura de col&eacute;gio &mdash; seu orgulho pr&oacute;prio.
+              </div>
+            </div>
+            <button class="btn-selecionar" data-versao="monique" data-arquetipo="noticia">SELECIONAR</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================ -->
+      <!-- ARQUÉTIPO 6: A INFLUÊNCIA (ESTAGIÁRIO DA PREFEITURA) -->
+      <!-- ============================================ -->
+      <div class="arquetipo-card section-reveal" data-arquetipo="influencia">
+        <div class="card-static-overlay"></div>
+
+        <div class="arquetipo-header">
+          <span class="arquetipo-numero">06</span>
+          <div class="arquetipo-titulo">
+            <h3 class="glitch" data-text="A INFLUÊNCIA">A INFLU&Ecirc;NCIA</h3>
+            <span class="arquetipo-subtipo">Estagi&aacute;rio da Prefeitura &mdash; 24 anos</span>
+          </div>
+          <span class="arquetipo-foco">FOCO: <strong>DAY / NIGHT</strong></span>
+        </div>
+
+        <div class="arquetipo-item-unico">
+          <span class="item-label">ITEM &Uacute;NICO:</span>
+          <span class="item-nome">Molho de Chaves Mestras</span>
+          <span class="item-desc">&mdash; abre qualquer pr&eacute;dio p&uacute;blico ou subsolo da cidade.</span>
+        </div>
+
+        <div class="arquetipo-versoes">
+          <!-- LUCAS -->
+          <div class="versao-card" data-versao="lucas" data-arquetipo="influencia">
+            <div class="versao-portrait">
+              <div class="portrait-placeholder"><span>LUCAS</span></div>
+            </div>
+            <div class="versao-info">
+              <h4 class="versao-nome">LUCAS</h4>
+              <p class="versao-aparencia">Branco e louro, bem alto e atl&eacute;tico.</p>
+              <p class="versao-desc">O &ldquo;cara da l&aacute;bia&rdquo;. Parente do prefeito. Consegue o que quer com um sorriso e o sobrenome certo. Tem muita l&aacute;bia.</p>
+              <div class="versao-medalhao">
+                <span class="medalhao-label">MEDALH&Atilde;O:</span>
+                A abotoadura de ouro da fam&iacute;lia &mdash; seu s&iacute;mbolo de status e press&atilde;o.
+              </div>
+            </div>
+            <button class="btn-selecionar" data-versao="lucas" data-arquetipo="influencia">SELECIONAR</button>
+          </div>
+
+          <div class="versao-divisor">
+            <span>OU</span>
+          </div>
+
+          <!-- CAMILA -->
+          <div class="versao-card" data-versao="camila" data-arquetipo="influencia">
+            <div class="versao-portrait">
+              <div class="portrait-placeholder"><span>CAMILA</span></div>
+            </div>
+            <div class="versao-info">
+              <h4 class="versao-nome">CAMILA</h4>
+              <p class="versao-aparencia">Branca e loura, alta e esbelta.</p>
+              <p class="versao-desc">Elegante e influente. Parente do prefeito. Usa o acesso privilegiado para investigar o que a lei esconde. Tem muita l&aacute;bia.</p>
+              <div class="versao-medalhao">
+                <span class="medalhao-label">MEDALH&Atilde;O:</span>
+                O crach&aacute; da prefeitura &mdash; seu acesso a todos os segredos da cidade.
+              </div>
+            </div>
+            <button class="btn-selecionar" data-versao="camila" data-arquetipo="influencia">SELECIONAR</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- .arquetipo-list -->
+  </section>
+
+  <!-- SEÇÃO 4: SISTEMA -->
+  <section id="sistema" class="section-reveal">
+    <div class="section-header">
+      <span class="broadcast-label">&#9608; CLASSIFICADO &#9608;</span>
+      <h2 class="glitch" data-text="PROTOCOLO">PROTOCOLO</h2>
+    </div>
+
+    <div class="documento">
+      <div class="documento-stamp">USO INTERNO</div>
+      <div class="documento-content">
+        <h3 class="documento-titulo">SISTEMA: PUBLIC ACCESS</h3>
+        <p data-corrupt>
+          Limiar utiliza o sistema <strong>Public Access</strong>, com ajustes para melhor
+          refletir o cenário e o tom da campanha. O foco está na investigação, nas relações
+          entre os personagens e na tensão crescente — não no combate.
+        </p>
+        <div class="documento-divider"></div>
+        <h4>PRINCÍPIOS</h4>
+        <ul>
+          <li>A narrativa é colaborativa. Suas escolhas moldam a história.</li>
+          <li>O horror vem do desconhecido, do familiar distorcido, do que não deveria estar ali.</li>
+          <li>Investigação e diálogo são suas melhores ferramentas. A violência tem consequências.</li>
+          <li>O mundo reage. Morro Alto lembra de tudo.</li>
+        </ul>
+        <div class="documento-divider"></div>
+        <p class="documento-nota">
+          <em>Detalhes adicionais sobre regras e ajustes serão compartilhados na sessão zero.</em>
+        </p>
+      </div>
+      <div class="documento-redacted"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="footer-content">
+      <div class="footer-line"></div>
+      <p class="footer-text">FIM DA FITA &#9608;&#9608; REBOBINE POR FAVOR</p>
+      <p class="footer-sub">LIMIAR: CONTROLE DE DANOS &mdash; MORRO ALTO, RJ &mdash; 1999</p>
+      <p class="footer-final" data-corrupt>A fita acabou. Mas o sinal continua.</p>
+    </div>
+  </footer>
+
+  <!-- MODAL DE IDENTIFICAÇÃO -->
+  <div id="name-modal">
+    <div class="name-modal-content">
+      <div class="name-modal-static"></div>
+      <h2 class="glitch" data-text="IDENTIFICAÇÃO">IDENTIFICA&Ccedil;&Atilde;O</h2>
+      <p>Informe seu nome para acessar os registros.</p>
+      <input type="text" id="player-name-input" placeholder="SEU NOME" maxlength="30" autocomplete="off" spellcheck="false">
+      <button id="name-confirm-btn">CONFIRMAR</button>
+      <p class="name-error" id="name-error"></p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

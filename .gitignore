@@ -1,0 +1,17 @@
+# Credenciais
+js/config.js
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Dependências
+node_modules/
+
+# Logs
+*.log
+
+# IDEs
+.vscode/
+.idea/
