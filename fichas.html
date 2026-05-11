@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Fichas dos Sintonizados — Limiar: Controle de Danos">
+  <meta property="og:title" content="Fichas — Limiar">
+  <meta property="og:type" content="website">
+  <title>LIMIAR: Fichas</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-fichas">
+
+  <!-- CANVAS DE RUÍDO ESTÁTICO -->
+  <canvas id="static-noise"></canvas>
+
+  <!-- VHS TRACKING BAND -->
+  <div id="vhs-tracking"></div>
+
+  <!-- VHS TIMESTAMP -->
+  <div id="vhs-timestamp">
+    <span class="rec-dot">&#9679;</span> REC <span id="vhs-time">23:47:00</span> 12.SET.1999
+  </div>
+
+  <!-- NAVEGAÇÃO PRINCIPAL (3 abas) -->
+  <nav id="main-nav">
+    <a href="/" class="main-nav-link">INÍCIO</a>
+    <a href="regras" class="main-nav-link">REGRAS</a>
+    <a href="fichas" class="main-nav-link active">FICHAS</a>
+  </nav>
+
+  <!-- HEADER -->
+  <section id="fichas-header">
+    <div class="section-header">
+      <span class="broadcast-label">&#9608; ARQUIVO ATIVO &#9608;</span>
+      <h2 class="glitch" data-text="FICHAS">FICHAS</h2>
+      <p class="section-subtitle">Os Sintonizados &middot; Status em tempo real</p>
+    </div>
+  </section>
+
+  <!-- LISTA DE FICHAS -->
+  <section id="fichas-lista">
+    <div class="fichas-grid" id="fichas-grid">
+      <div class="fichas-loading">CARREGANDO ARQUIVO...</div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="footer-content">
+      <div class="footer-line"></div>
+      <p class="footer-text">FIM DA FITA &#9608;&#9608; REBOBINE POR FAVOR</p>
+      <p class="footer-sub">LIMIAR: CONTROLE DE DANOS &mdash; MORRO ALTO, RJ &mdash; 1999</p>
+      <p class="footer-final" data-corrupt>A fita acabou. Mas o sinal continua.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/playbooks.js"></script>
+  <script src="js/fichas.js"></script>
+</body>
+</html>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Livro do Jogador — Limiar: Controle de Danos. Sistema adaptado de Public Access.">
+  <meta property="og:title" content="Livro do Jogador — Limiar">
+  <meta property="og:description" content="Manual de regras para Sintonizados.">
+  <meta property="og:type" content="website">
+  <title>LIMIAR: Livro do Jogador</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-regras">
+
+  <!-- CANVAS DE RUÍDO ESTÁTICO -->
+  <canvas id="static-noise"></canvas>
+
+  <!-- VHS TRACKING BAND -->
+  <div id="vhs-tracking"></div>
+
+  <!-- VHS TIMESTAMP -->
+  <div id="vhs-timestamp">
+    <span class="rec-dot">&#9679;</span> REC <span id="vhs-time">23:47:00</span> 12.SET.1999
+  </div>
+
+  <!-- NAVEGAÇÃO PRINCIPAL (3 abas) -->
+  <nav id="main-nav">
+    <a href="/" class="main-nav-link">INÍCIO</a>
+    <a href="regras" class="main-nav-link active">REGRAS</a>
+    <a href="fichas" class="main-nav-link">FICHAS</a>
+  </nav>
+
+  <!-- SEÇÃO ÚNICA: LIVRO -->
+  <section id="regras">
+    <div class="section-header">
+      <span class="broadcast-label">&#9608; MANUAL &#9608;</span>
+      <h2 class="glitch" data-text="LIVRO DO JOGADOR">LIVRO DO JOGADOR</h2>
+      <p class="section-subtitle">Sistema adaptado de <em>Public Access</em> &middot; v2.0</p>
+    </div>
+
+    <div class="livro-epigrafe">
+      <p>&ldquo;Se voc&ecirc; est&aacute; ouvindo isso, ainda d&aacute; tempo. Eles vieram finalmente. Impe&ccedil;am o Instituto &Iacute;ris.&rdquo;</p>
+      <span>&mdash; Nil, Grava&ccedil;&atilde;o Banida V-001</span>
+    </div>
+
+    <!-- SUMÁRIO -->
+    <nav class="livro-sumario" aria-label="Sumário do Livro do Jogador">
+      <h3 class="sumario-titulo">&#9608; SUM&Aacute;RIO &#9608;</h3>
+      <ol class="sumario-lista">
+        <li><a href="#cap-01"><span>01</span> O que &eacute; este jogo</a></li>
+        <li><a href="#cap-02"><span>02</span> O tom de Limiar</a></li>
+        <li><a href="#cap-03"><span>03</span> Gloss&aacute;rio r&aacute;pido</a></li>
+        <li><a href="#cap-04"><span>04</span> Os tr&ecirc;s atributos</a></li>
+        <li><a href="#cap-05"><span>05</span> Mec&acirc;nica b&aacute;sica &mdash; a rolagem</a></li>
+        <li><a href="#cap-06"><span>06</span> Movimentos b&aacute;sicos</a></li>
+        <li><a href="#cap-07"><span>07</span> Movimentos do cen&aacute;rio</a></li>
+        <li><a href="#cap-08"><span>08</span> Pistas</a></li>
+        <li><a href="#cap-09"><span>09</span> Stress, Sinal, Condi&ccedil;&otilde;es &amp; Chaves</a></li>
+        <li><a href="#cap-10"><span>10</span> Protocolo de Resposta Imediata</a></li>
+        <li><a href="#cap-11"><span>11</span> Refer&ecirc;ncia r&aacute;pida</a></li>
+      </ol>
+    </nav>
+
+    <div class="livro-conteudo">
+
+      <!-- CAPÍTULO 1 -->
+      <details class="capitulo" id="cap-01">
+        <summary><span class="cap-num">01</span> O QUE &Eacute; ESTE JOGO</summary>
+        <div class="cap-body">
+          <p><strong>Limiar: Controle de Danos</strong> &eacute; um RPG de mist&eacute;rio e horror anal&oacute;gico ambientado em <strong>Morro Alto, interior do Rio de Janeiro, setembro de 1999</strong>. Voc&ecirc;s interpretam <strong>Os Sintonizados</strong>, cinco amigos da Locadora ZumZum que assistiram &agrave; fita V-001 e ficaram &ldquo;marcados&rdquo; pelo sinal.</p>
+
+          <h4 class="cap-sub">O que este jogo N&Atilde;O &eacute;</h4>
+          <ul>
+            <li>N&atilde;o &eacute; um jogo de combate t&aacute;tico com hit points e iniciativa fixa.</li>
+            <li>N&atilde;o &eacute; um jogo onde voc&ecirc;s v&atilde;o &ldquo;ganhar&rdquo; matando o monstro final.</li>
+            <li>N&atilde;o &eacute; um jogo de her&oacute;is preparados, voc&ecirc;s s&atilde;o jovens normais que enxergaram o que n&atilde;o deveriam.</li>
+          </ul>
+
+          <h4 class="cap-sub">O que este jogo &Eacute;</h4>
+          <ul>
+            <li>Um jogo de <strong>investiga&ccedil;&atilde;o coletiva</strong>: a verdade do mist&eacute;rio &eacute; constru&iacute;da por voc&ecirc;s durante o jogo.</li>
+            <li>Um jogo de <strong>atmosfera</strong>: TV de tubo, cheiro de carpete, tela com chuvisco, telefone tocando &agrave;s 3h da manh&atilde;.</li>
+            <li>Um jogo de <strong>risco crescente</strong>: cada fita assistida d&aacute; mais poder ao Instituto &Iacute;ris.</li>
+            <li>Um jogo de <strong>decis&otilde;es imposs&iacute;veis</strong> com escassez de tempo, informa&ccedil;&atilde;o e seguran&ccedil;a.</li>
+          </ul>
+
+          <blockquote class="cap-quote">
+            <strong>Refer&ecirc;ncias de tom:</strong> <em>Arquivo X</em>, <em>Stranger Things</em> (sem o lado her&oacute;i), <em>O Chamado</em>, <em>Cidade dos Sonhos</em> do Lynch, <em>Local 58</em>, <em>The Backrooms</em> cl&aacute;ssicos, e qualquer coisa do canal Manchete &agrave;s 3h da manh&atilde;.
+          </blockquote>
+        </div>
+      </details>
+
+      <!-- CAPÍTULO 2 -->
+      <details class="capitulo" id="cap-02">
+        <summary><span class="cap-num">02</span> O TOM DE LIMIAR</summary>
+        <div class="cap-body">
+          <p>Quatro coisas pra ter em mente o tempo todo:</p>
+          <ol>
+            <li><strong>A cidade &eacute; maior do que parece.</strong> Morro Alto tem ruas que mudam de lugar. T&uacute;neis. Antenas que n&atilde;o deveriam existir.</li>
+            <li><strong>O sinal pode ser ouvido.</strong> R&aacute;dios, TVs, telefones, fitas, tudo &eacute; portal.</li>
+            <li><strong>Voc&ecirc;s n&atilde;o s&atilde;o especiais. Voc&ecirc;s foram pegos.</strong> A V-001 n&atilde;o escolheu voc&ecirc;s; voc&ecirc;s estavam l&aacute;.</li>
+            <li><strong>N&atilde;o h&aacute; her&oacute;is em Morro Alto.</strong> H&aacute; sobreviventes que pagaram o pre&ccedil;o.</li>
+          </ol>
+        </div>
+      </details>
+
+      <!-- CAPÍTULO 3 -->
+      <details class="capitulo" id="cap-03">
+        <summary><span class="cap-num">03</span> GLOSS&Aacute;RIO R&Aacute;PIDO</summary>
+        <div class="cap-body">
+          <table class="livro-tabela">
+            <thead><tr><th>Termo</th><th>Significado</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Sintonizado</strong></td><td>Seu personagem. Marcado pela V-001.</td></tr>
+              <tr><td><strong>Mestre / Sintonizador</strong></td><td>Quem narra.</td></tr>
+              <tr><td><strong>Caso / Transmiss&atilde;o</strong></td><td>Mist&eacute;rio individual de uma sess&atilde;o ou arco.</td></tr>
+              <tr><td><strong>Fita Proibida</strong></td><td>VHS an&ocirc;mala (V-001, V-002, etc.) que escala a amea&ccedil;a.</td></tr>
+              <tr><td><strong>Pista</strong></td><td>Fragmento de informa&ccedil;&atilde;o que se acumula at&eacute; a Decifra&ccedil;&atilde;o.</td></tr>
+              <tr><td><strong>Decifrar a Transmiss&atilde;o</strong></td><td>Movimento que resolve o Caso.</td></tr>
+              <tr><td><strong>Stress</strong></td><td>Dano f&iacute;sico, mental e emocional. Recupera na Locadora.</td></tr>
+              <tr><td><strong>Sinal</strong></td><td>Exposi&ccedil;&atilde;o ao Profundo. <strong>N&atilde;o recupera f&aacute;cil.</strong></td></tr>
+              <tr><td><strong>Chave</strong></td><td>Recurso narrativo pra desfazer morte ou alterar cena.</td></tr>
+              <tr><td><strong>Locadora ZumZum</strong></td><td>Sua base. Ref&uacute;gio.</td></tr>
+              <tr><td><strong>Nil</strong></td><td>A voz na fita. Ex-Vig&iacute;lia. Informante misterioso.</td></tr>
+              <tr><td><strong>Profundo</strong></td><td>A frequ&ecirc;ncia paralela. O paranormal deste mundo.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <!-- CAPÍTULO 4 -->
+      <details class="capitulo" id="cap-04">
+        <summary><span class="cap-num">04</span> OS TR&Ecirc;S ATRIBUTOS &mdash; DIA, NOITE, PROFUNDO</summary>
+        <div class="cap-body">
+          <p>Em Limiar, os atributos n&atilde;o medem <strong>s&oacute; o que voc&ecirc; consegue fazer</strong>. Medem em qual <strong>frequ&ecirc;ncia</strong> seu personagem est&aacute; operando.</p>
+
+          <div class="atributo-bloco atributo-bloco-dia">
+            <h4 class="cap-sub">&#9728; DIA</h4>
+            <p><strong>Racionalidade. Vida civil. L&oacute;gica. Sociedade.</strong> A camada que a maioria das pessoas v&ecirc;.</p>
+            <p><em>Use quando:</em> conversa, pesquisa, burocracia, conhecimento profissional, l&aacute;bia, dedu&ccedil;&atilde;o, leitura t&eacute;cnica.</p>
+            <p><em>Exemplos:</em> convencer policial a ignorar invas&atilde;o; pesquisar arquivos da biblioteca; entender documento t&eacute;cnico; tirar fofoca de uma vizinha; reconhecer clich&ecirc; de filme.</p>
+          </div>
+
+          <div class="atributo-bloco atributo-bloco-noite">
+            <h4 class="cap-sub">&#9790; NOITE</h4>
+            <p><strong>Instinto. Adrenalina. Corpo. Sombra.</strong> A camada da sobreviv&ecirc;ncia imediata.</p>
+            <p><em>Use quando:</em> risco f&iacute;sico, esfor&ccedil;o corporal, furtividade, velocidade, confronto direto.</p>
+            <p><em>Exemplos:</em> fugir de Santana preto; escalar a torre; esconder-se nos becos; arrombar porta; brigar.</p>
+          </div>
+
+          <div class="atributo-bloco atributo-bloco-profundo">
+            <h4 class="cap-sub">&#10044; PROFUNDO</h4>
+            <p><strong>Sinal magn&eacute;tico. Tecnologia distorcida. Sensibilidade ao paranormal.</strong> A camada que n&atilde;o deveria existir.</p>
+            <p><em>Use quando:</em> lidar com algo que viola a f&iacute;sica, sintonizar frequ&ecirc;ncias estranhas, resistir ao paranormal, &ldquo;ouvir&rdquo; o que n&atilde;o est&aacute; sendo dito.</p>
+            <p><em>Exemplos:</em> captar mensagem escondida num pager; resistir ao pavor de uma anomalia; hackear sistema em frequ&ecirc;ncia estranha; ouvir Nil no chiado.</p>
+          </div>
+
+          <h4 class="cap-sub">Escala de valores (2 a 5)</h4>
+          <table class="livro-tabela">
+            <thead><tr><th>Valor</th><th>Significado</th></tr></thead>
+            <tbody>
+              <tr><td><strong>2</strong></td><td>Voc&ecirc; funciona, mas treme. Civil normal nessa camada.</td></tr>
+              <tr><td><strong>3</strong></td><td>Competente. Sabe o que faz.</td></tr>
+              <tr><td><strong>4</strong></td><td>Not&aacute;vel. Reconhecido pelos pares.</td></tr>
+              <tr><td><strong>5</strong></td><td>Excepcional. Voc&ecirc; &eacute; <strong>o cara</strong> disso na cidade.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <!-- CAPÍTULO 5 -->
+      <details class="capitulo" id="cap-05">
+        <summary><span class="cap-num">05</span> MEC&Acirc;NICA B&Aacute;SICA &mdash; A ROLAGEM</summary>
+        <div class="cap-body">
+          <p>Toda vez que seu Sintonizado faz algo arriscado, perigoso ou incerto, role <strong>2d6 + atributo</strong>:</p>
+          <table class="livro-tabela">
+            <thead><tr><th>Resultado</th><th>O que acontece</th></tr></thead>
+            <tbody>
+              <tr><td><strong>16+</strong></td><td><strong>Sucesso cr&iacute;tico.</strong> Faz o que queria, e mais. O Mestre te d&aacute; benef&iacute;cio extra ou informa&ccedil;&atilde;o revelada.</td></tr>
+              <tr><td><strong>12-15</strong></td><td><strong>Sucesso pleno.</strong> Faz o que queria, sem custo.</td></tr>
+              <tr><td><strong>8-11</strong></td><td><strong>Sucesso parcial.</strong> Acontece, mas com complica&ccedil;&atilde;o ou custo. No Movimento de Risco voc&ecirc; pode <em>recuar</em> antes de aceitar.</td></tr>
+              <tr><td><strong>7-</strong></td><td><strong>Falha.</strong> O Mestre reage e a situa&ccedil;&atilde;o piora.</td></tr>
+            </tbody>
+          </table>
+
+          <h4 class="cap-sub">Probabilidade por atributo</h4>
+          <table class="livro-tabela">
+            <thead><tr><th>Atributo</th><th>Falha (7-)</th><th>Parcial (8-11)</th><th>Pleno (12+)</th></tr></thead>
+            <tbody>
+              <tr><td><strong>2</strong></td><td>28%</td><td>53%</td><td>19%</td></tr>
+              <tr><td><strong>3</strong></td><td>17%</td><td>53%</td><td>30%</td></tr>
+              <tr><td><strong>4</strong></td><td>8%</td><td>50%</td><td>42%</td></tr>
+              <tr><td><strong>5</strong></td><td>3%</td><td>39%</td><td>58%</td></tr>
+            </tbody>
+          </table>
+
+          <blockquote class="cap-quote">
+            <strong>Regra de ouro:</strong> s&oacute; se rola dado quando o resultado &eacute; incerto <em>e</em> algo importante est&aacute; em jogo. Se est&aacute; procurando uma fita comum, ele acha. Se &eacute; uma fita escondida pelo Bruno sob risco, a&iacute; sim, rola.
+          </blockquote>
+        </div>
+      </details>
+
+      <!-- CAPÍTULO 6 -->
+      <details class="capitulo" id="cap-06">
+        <summary><span class="cap-num">06</span> MOVIMENTOS B&Aacute;SICOS</summary>
+        <div class="cap-body">
+          <p>Movimentos s&atilde;o &ldquo;gatilhos&rdquo;: quando a fic&ccedil;&atilde;o entra naquela situa&ccedil;&atilde;o, o movimento acontece. <strong>Descreva a a&ccedil;&atilde;o primeiro; s&oacute; role depois que ficar claro qual movimento foi disparado.</strong></p>
+
+          <h4 class="cap-sub">6.1 &mdash; BISBILHOTAR</h4>
+          <blockquote class="cap-quote"><em>Quando voc&ecirc; procura ativamente, faz perguntas, vasculha um arquivo, ou observa um lugar com aten&ccedil;&atilde;o, role com o atributo apropriado. Um bom resultado revela uma <strong>Pista</strong>.</em></blockquote>
+          <p>Vasculhar arquivos / conversar / interpretar = <strong>Dia</strong>. Procurar fisicamente em local sujo, perigoso, escondido = <strong>Noite</strong>. Procurar com a &ldquo;sexta orelha&rdquo; = <strong>Profundo</strong>.</p>
+
+          <h4 class="cap-sub">6.2 &mdash; MOVIMENTO DE RISCO</h4>
+          <blockquote class="cap-quote"><em>Quando voc&ecirc; faz algo arriscado ou enfrenta algo que normalmente daria pra evitar, diga o que voc&ecirc; teme e role. Resultados intermedi&aacute;rios podem te dar a chance de <strong>recuar</strong> antes de aceitar a consequ&ecirc;ncia.</em></blockquote>
+
+          <h4 class="cap-sub">6.3 &mdash; MOVIMENTO DE SOBREVIV&Ecirc;NCIA</h4>
+          <blockquote class="cap-quote"><em>Quando algo do Profundo te ataca, te toca, te convida ou te chama, role (geralmente Noite ou Profundo). O Profundo cobra pre&ccedil;o: pode ser Stress, Sinal, ou uma Condi&ccedil;&atilde;o. Em situa&ccedil;&otilde;es extremas, pode ser at&eacute; a morte.</em></blockquote>
+
+          <h4 class="cap-sub">6.4 &mdash; DECIFRAR A TRANSMISS&Atilde;O</h4>
+          <blockquote class="cap-quote"><em>Quando o grupo tem Pistas suficientes e voc&ecirc;s teorizam abertamente, quem articular a teoria final rola com <strong>Dia</strong>. A rolagem mede a <strong>Sintonia</strong> de voc&ecirc;s com a verdade do Caso.</em></blockquote>
+          <p><strong>Teorizem alto, debatam, voltem &agrave;s fitas.</strong> A Decifra&ccedil;&atilde;o premia o grupo que articula bem a hist&oacute;ria inteira.</p>
+
+          <h4 class="cap-sub">6.5 &mdash; TEMPO MORTO NA LOCADORA</h4>
+          <blockquote class="cap-quote"><em>Quando o grupo passa um tempo na Locadora ZumZum entre cenas, cada jogador escolhe <strong>uma</strong> atividade da lista abaixo.</em></blockquote>
+          <ul>
+            <li><strong>Curar Stress.</strong> Recupere at&eacute; 3 Stress.</li>
+            <li><strong>Apagar uma Condi&ccedil;&atilde;o.</strong></li>
+            <li><strong>Pedir conselho</strong> a outro Sintonizado. Ele descreve cena curta. Voc&ecirc; ganha <strong>+1 progressivo</strong> na pr&oacute;xima rolagem ligada ao tema.</li>
+            <li><strong>Mexer no seu Canto da Locadora.</strong> Prepara um equipamento. Item descart&aacute;vel tempor&aacute;rio.</li>
+            <li><strong>Descobrir uma fofoca da cidade.</strong> Mestre te d&aacute; Pista de fundo, sem custo.</li>
+          </ul>
+          <blockquote class="cap-quote"><strong>Sinal n&atilde;o se cura aqui.</strong> Sinal &eacute; marca permanente.</blockquote>
+        </div>
+      </details>
+
+      <!-- CAPÍTULO 7 -->
+      <details class="capitulo" id="cap-07">
+        <summary><span class="cap-num">07</span> MOVIMENTOS DO CEN&Aacute;RIO</summary>
+        <div class="cap-body">
+          <h4 class="cap-sub">7.1 &mdash; SINTONIZAR</h4>
+          <blockquote class="cap-quote"><em>Quando voc&ecirc; se abre conscientemente para o Profundo, encosta o ouvido na TV chiando, fica em sil&ecirc;ncio na frente do espelho, segura uma fita morta, role com <strong>Profundo</strong>. Voc&ecirc; pode captar um fragmento claro que conta como Pista. Mas o sinal &eacute; em m&atilde;o dupla: quanto mais voc&ecirc; escuta, mais o outro lado <strong>te enxerga</strong>.</em></blockquote>
+          <p>Apenas <strong>um Sintonizado por cena</strong> pode usar este movimento. <strong>Exce&ccedil;&atilde;o:</strong> L&eacute;o.</p>
+
+          <h4 class="cap-sub">7.2 &mdash; A FITA RODA</h4>
+          <blockquote class="cap-quote"><em>Quando o grupo coloca uma Fita Proibida pra rodar, todos os Sintonizados presentes rolam <strong>Profundo</strong> simultaneamente. Cada um capta algo, mas a fita tamb&eacute;m olha de volta. Pode custar Stress, Sinal, ou acelerar a opera&ccedil;&atilde;o do &Iacute;ris.</em></blockquote>
+        </div>
+      </details>
+
+      <!-- CAPÍTULO 8 -->
+      <details class="capitulo" id="cap-08">
+        <summary><span class="cap-num">08</span> PISTAS</summary>
+        <div class="cap-body">
+          <p>Pistas s&atilde;o fragmentos: um nome, uma data, uma foto borrada, um cheiro fora de lugar, uma frase de Nil no chiado. Cada Bisbilhotar bem-sucedido revela uma. <strong>Anote tudo</strong>, at&eacute; o que parece bobagem hoje pode encaixar tr&ecirc;s sess&otilde;es depois.</p>
+          <p>Sozinhas, as Pistas n&atilde;o dizem nada. <strong>A verdade s&oacute; aparece quando voc&ecirc;s juntam, debatem e teorizam em cima do que coletaram.</strong> A Decifra&ccedil;&atilde;o &eacute; o momento em que essa teoria &eacute; posta &agrave; prova contra a frequ&ecirc;ncia do Caso.</p>
+        </div>
+      </details>
+
+      <!-- CAPÍTULO 9 -->
+      <details class="capitulo" id="cap-09">
+        <summary><span class="cap-num">09</span> STRESS, SINAL, CONDI&Ccedil;&Otilde;ES E CHAVES</summary>
+        <div class="cap-body">
+          <h4 class="cap-sub">9.1 &mdash; STRESS</h4>
+          <p class="livro-medidor">STRESS: <span class="medidor-bola">&#9675;</span><span class="medidor-bola">&#9675;</span><span class="medidor-bola">&#9675;</span><span class="medidor-bola">&#9675;</span><span class="medidor-bola">&#9675;</span><span class="medidor-bola">&#9675;</span></p>
+          <p><strong>6 caixas.</strong> Representa fadiga, dor, susto, esgotamento.</p>
+          <p><strong>Stress 6/6:</strong> pr&oacute;xima rolagem com 7- = personagem <strong>cai fora da cena</strong> (apaga, vomita, surta, foge sem controlar). Outro Sintonizado precisa tir&aacute;-lo.</p>
+          <p><strong>Como recuperar:</strong></p>
+          <ul>
+            <li>Tempo Morto na Locadora, recupera at&eacute; 3.</li>
+            <li>Noite inteira de sono em casa, recupera 1.</li>
+            <li>Cena emocional honesta (abra&ccedil;o, confiss&atilde;o), Mestre concede 1 a 2.</li>
+          </ul>
+
+          <h4 class="cap-sub">9.2 &mdash; SINAL</h4>
+          <p class="livro-medidor livro-medidor-sinal">SINAL: <span class="medidor-bola">&#9675;</span><span class="medidor-bola">&#9675;</span><span class="medidor-bola">&#9675;</span><span class="medidor-bola">&#9675;</span></p>
+          <p><strong>4 caixas.</strong> Representa o quanto o Profundo j&aacute; entrou em voc&ecirc;. <strong>N&Atilde;O recupera com descanso.</strong></p>
+          <table class="livro-tabela">
+            <thead><tr><th>Caixas</th><th>Efeito permanente</th></tr></thead>
+            <tbody>
+              <tr><td><strong>1</strong></td><td>Pequenas falhas de mem&oacute;ria. Lembra de coisas que n&atilde;o viveu.</td></tr>
+              <tr><td><strong>2</strong></td><td>Pessoas come&ccedil;am a esquecer detalhes seus. Foto antiga aparece borrada.</td></tr>
+              <tr><td><strong>3</strong></td><td>Voc&ecirc; ouve Nil sem precisar de fita. <strong>+1 permanente em Profundo.</strong> O Profundo te enxerga sempre.</td></tr>
+              <tr><td><strong>4</strong></td><td>Pr&oacute;xima rolagem com 7- = <strong>voc&ecirc; &eacute; apagado da exist&ecirc;ncia</strong>. Vira sinal, igual o Nil. Salvo se algu&eacute;m virar uma Chave por voc&ecirc;.</td></tr>
+            </tbody>
+          </table>
+          <p><strong>Como reduzir Sinal:</strong></p>
+          <ul>
+            <li>Resolver Caso ligado ao &Iacute;ris com Decifra&ccedil;&atilde;o 16+, apaga 1 Sinal de <strong>um</strong> Sintonizado.</li>
+            <li>Destruir uma Fita Proibida (com ritual descoberto por voc&ecirc;s), apaga 1 Sinal de quem participou.</li>
+            <li>Encontrar um item da Vig&iacute;lia original.</li>
+          </ul>
+          <blockquote class="cap-quote"><strong>Filosofia:</strong> Stress &eacute; o pre&ccedil;o do dia a dia. Sinal &eacute; o pre&ccedil;o de <strong>ter visto</strong>. Stress passa. Sinal voc&ecirc; carrega.</blockquote>
+
+          <h4 class="cap-sub">9.3 &mdash; CONDI&Ccedil;&Otilde;ES</h4>
+          <p>Palavra ou frase curta dada pelo Mestre. Exemplos: <em>Tonto. / Surdo de um ouvido. / Engasgado de medo. / N&atilde;o consegue olhar pra c&acirc;meras. / Convencido de que viu o pai morto.</em></p>
+          <p><strong>Efeito:</strong> enquanto a Condi&ccedil;&atilde;o &eacute; relevante, o Mestre pode pedir <strong>-1</strong> na rolagem que ela atrapalhe.</p>
+          <p><strong>Como limpar:</strong> Tempo Morto na Locadora ou cena espec&iacute;fica de cura.</p>
+
+          <h4 class="cap-sub">9.4 &mdash; CHAVES</h4>
+          <p class="livro-medidor livro-medidor-chave">CHAVES: <span class="medidor-bola">&#9670;</span><span class="medidor-bola">&#9670;</span><span class="medidor-bola">&#9670;</span></p>
+          <p><strong>3 Chaves por personagem.</strong> Use em <strong>dois momentos</strong>:</p>
+          <p><strong>A) Para desfazer morte ou apagamento.</strong> Vire e renarre, voc&ecirc; sobrevive, mas o Mestre imp&otilde;e <strong>um</strong>:</p>
+          <ul>
+            <li>Sinal cheio (ou +1 se j&aacute; estava em 3).</li>
+            <li>Condi&ccedil;&atilde;o grave duradoura.</li>
+            <li>Pista perdida.</li>
+            <li>Item importante perdido.</li>
+          </ul>
+          <p><strong>B) Para alterar cena retroativamente.</strong> <em>&ldquo;Quando voc&ecirc;s chegaram, eu j&aacute; tinha tirado o microfilme do bolso dele.&rdquo;</em> Adicione <strong>um fato curto</strong> como flashback. Mestre tem veto se for absurdo.</p>
+          <p><strong>Chaves n&atilde;o voltam.</strong> Gastou, gastou.</p>
+        </div>
+      </details>
+
+      <!-- CAPÍTULO 10 -->
+      <details class="capitulo" id="cap-10">
+        <summary><span class="cap-num">10</span> PROTOCOLO DE RESPOSTA IMEDIATA &mdash; COMBATE</summary>
+        <div class="cap-body">
+          <blockquote class="cap-quote"><em>&ldquo;Em Limiar, se voc&ecirc; entrou numa briga, voc&ecirc; j&aacute; perdeu um pouco de si. Cada soco trocado &eacute; um ponto a menos de f&ocirc;lego. O objetivo n&atilde;o &eacute; &lsquo;limpar a sala&rsquo; de monstros, &eacute; sobreviver pra contar a hist&oacute;ria e gravar a evid&ecirc;ncia.&rdquo;</em></blockquote>
+
+          <h4 class="cap-sub">10.1 &mdash; INICIATIVA NARRATIVA</h4>
+          <ol>
+            <li><strong>Quem descreve a a&ccedil;&atilde;o primeiro, age primeiro.</strong> Recompensa jogador atento.</li>
+            <li><strong>Em empate ou d&uacute;vida</strong>, age primeiro quem tiver maior atributo relevante.</li>
+            <li><strong>Cenas longas alternam:</strong> depois que algu&eacute;m age, a &ldquo;vez&rdquo; passa pra quem reage.</li>
+          </ol>
+
+          <h4 class="cap-sub">10.2 &mdash; A ROLAGEM DE CONFRONTO</h4>
+          <p><strong>Voc&ecirc; n&atilde;o rola pra acertar e depois rola dano. Rola pra resolver.</strong></p>
+          <ul>
+            <li><strong>Noite (F&iacute;sico):</strong> brigar, atirar, atropelar com o Opala, dar uma &ldquo;skatada&rdquo; na canela do Engravatado.</li>
+            <li><strong>Profundo (An&ocirc;malo):</strong> sobrecarregar uma criatura com sinal, resistir a ataque ps&iacute;quico do &Iacute;ris.</li>
+            <li><strong>Dia (Social/T&aacute;tico):</strong> intimidar com l&aacute;bia, blefar com arma vazia, negociar ref&eacute;m.</li>
+          </ul>
+
+          <h4 class="cap-sub">10.3 &mdash; RESULTADOS</h4>
+          <table class="livro-tabela">
+            <thead><tr><th>Rolagem</th><th>O que acontece</th></tr></thead>
+            <tbody>
+              <tr><td><strong>16+</strong></td><td><strong>Vit&oacute;ria cinematogr&aacute;fica.</strong> Atinge o objetivo e ganha algo extra.</td></tr>
+              <tr><td><strong>12-15</strong></td><td><strong>Sucesso limpo.</strong> Inimigo nocauteado, desarmado ou afastado. Voc&ecirc; n&atilde;o sofre.</td></tr>
+              <tr><td><strong>8-11</strong></td><td><strong>Sucesso com custo.</strong> Conseguiu, mas escolha: troca de golpes (1 Stress), perda de equipamento, ou exposi&ccedil;&atilde;o.</td></tr>
+              <tr><td><strong>7-</strong></td><td><strong>Falha.</strong> Inimigo te acerta: marque <strong>2 Stress</strong> OU ganhe uma Condi&ccedil;&atilde;o imediata.</td></tr>
+            </tbody>
+          </table>
+
+          <h4 class="cap-sub">10.4 &mdash; O FATOR SLASHER</h4>
+          <p>O Instituto &Iacute;ris caiu por causa do g&ecirc;nero slasher. <strong>Usem isso.</strong></p>
+          <p><strong>Clich&ecirc; de Sobreviv&ecirc;ncia:</strong> a&ccedil;&atilde;o que seja clich&ecirc; cl&aacute;ssico de filme de terror anos 80/90 = <strong>+1</strong> (ou <strong>+2</strong> se for clich&ecirc; absurdamente espec&iacute;fico e bem aplicado).</p>
+          <ul>
+            <li><em>&ldquo;Vou me esconder embaixo da cama e cortar o calcanhar dele quando passar.&rdquo;</em> (+1)</li>
+            <li><em>&ldquo;Vou usar o flash da c&acirc;mera pra cegar o monstro.&rdquo;</em> (+1)</li>
+            <li><em>&ldquo;Vou jogar uma fita VHS na cabe&ccedil;a dele e correr.&rdquo;</em> (+1)</li>
+            <li><em>&ldquo;Vou abrir o cap&ocirc; do Opala e usar o fluido do limpador como gasolina pra um isqueiro.&rdquo;</em> (+2)</li>
+          </ul>
+          <p><strong>Ambiente Hostil:</strong> usar o cen&aacute;rio sempre conta como <strong>+1</strong>. Olhem em volta sempre.</p>
+
+          <h4 class="cap-sub">10.5 &mdash; COMBATE VEICULAR (Especial da Bruna)</h4>
+          <p>Persegui&ccedil;&otilde;es e batidas usam <strong>Noite</strong>.</p>
+          <ul>
+            <li><strong>Manobra Evasiva:</strong> 12+ desvia limpo / 8-11 desvia mas o Opala bate em algo / 7- acidente, 2 Stress.</li>
+            <li><strong>Ramming:</strong> 12+ inimigo sai da estrada / 8-11 inimigo sai mas o Opala toma dano / 7- os dois saem.</li>
+          </ul>
+          <p><strong>Bruna tem +1 em qualquer rolagem dentro do Opala.</strong></p>
+
+          <h4 class="cap-sub">10.6 &mdash; REGRAS DE FERRO</h4>
+          <ol>
+            <li><strong>Combate &eacute; caro.</strong> Sempre. Mesmo vit&oacute;ria limpa cansa.</li>
+            <li><strong>Fuga &eacute; t&aacute;tica, n&atilde;o covardia.</strong> O Opala existe por isso.</li>
+            <li><strong>Quem est&aacute; sem Chave e com Stress alto est&aacute; em perigo real.</strong></li>
+            <li><strong>O Mestre avisa antes de matar.</strong> Sempre. Nunca morte s&uacute;bita sem aviso.</li>
+          </ol>
+        </div>
+      </details>
+
+      <!-- CAPÍTULO 11 -->
+      <details class="capitulo" id="cap-11">
+        <summary><span class="cap-num">11</span> REFER&Ecirc;NCIA R&Aacute;PIDA</summary>
+        <div class="cap-body">
+          <pre class="livro-pre">ROLAGEM: 2d6 + Atributo
+  16+ Cr&iacute;tico  |  12-15 Sucesso  |  8-11 Custo  |  7- Falha + rea&ccedil;&atilde;o do Mestre
+
+ATRIBUTOS (escala 2-5)
+  &#9728; DIA      &#9790; NOITE      &#10044; PROFUNDO
+
+MOVIMENTOS B&Aacute;SICOS
+  &bull; Bisbilhotar (revela Pista)
+  &bull; Movimento de Risco (quando voc&ecirc; se arrisca por algo)
+  &bull; Movimento de Sobreviv&ecirc;ncia (Profundo te ataca)
+  &bull; Sintonizar (Profundo)
+  &bull; Decifrar a Transmiss&atilde;o (resolve o Caso)
+  &bull; Tempo Morto na Locadora (recupera Stress)
+
+COMBATE
+  &bull; Iniciativa narrativa (quem descreve primeiro)
+  &bull; Rolagem &uacute;nica resolve a cena
+  &bull; Fator Slasher: clich&ecirc; de filme = +1 ou +2
+  &bull; Combate &eacute; caro: at&eacute; vit&oacute;ria limpa cansa
+
+STRESS (&#9675;&#9675;&#9675;&#9675;&#9675;&#9675;) &mdash; 6 caixas &mdash; recupera na Locadora
+SINAL (&#9675;&#9675;&#9675;&#9675;) &mdash; 4 caixas &mdash; N&Atilde;O recupera com descanso
+CHAVES (&#9670;&#9670;&#9670;) &mdash; 3 &mdash; desfaz morte ou adiciona fato &agrave; cena</pre>
+        </div>
+      </details>
+
+    </div>
+
+    <div class="livro-rodape">
+      <p>Limiar recompensa quem <strong>olha de perto, escuta o chiado e teoriza alto</strong>. Anote tudo. Debata. Volte &agrave;s fitas.</p>
+      <p class="rodape-quote">&ldquo;Eles est&atilde;o aqui. O Instituto &Iacute;ris n&atilde;o pode concluir o que est&atilde;o destinados a fazer.&rdquo; &mdash; Nil, V-001</p>
+      <p class="rodape-credito"><em>Sistema adaptado de <strong>Public Access</strong> (Jason Cordova / The Gauntlet, 2023). Cen&aacute;rio original do Mestre.</em></p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="footer-content">
+      <div class="footer-line"></div>
+      <p class="footer-text">FIM DA FITA &#9608;&#9608; REBOBINE POR FAVOR</p>
+      <p class="footer-sub">LIMIAR: CONTROLE DE DANOS &mdash; MORRO ALTO, RJ &mdash; 1999</p>
+      <p class="footer-final" data-corrupt>A fita acabou. Mas o sinal continua.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

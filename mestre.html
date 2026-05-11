@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>LIMIAR: Zona do Mestre</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-mestre">
+
+  <!-- CANVAS DE RUÍDO ESTÁTICO -->
+  <canvas id="static-noise"></canvas>
+
+  <!-- VHS TRACKING BAND -->
+  <div id="vhs-tracking"></div>
+
+  <!-- VHS TIMESTAMP -->
+  <div id="vhs-timestamp">
+    <span class="rec-dot">&#9679;</span> REC <span id="vhs-time">23:47:00</span> 12.SET.1999
+  </div>
+
+  <!-- MODAL DE SENHA -->
+  <div id="senha-modal" class="senha-modal hidden">
+    <div class="senha-overlay"></div>
+    <div class="senha-content">
+      <div class="senha-static"></div>
+      <a href="/" class="senha-fechar" title="Sair">&times;</a>
+      <h3 class="senha-titulo glitch" data-text="ZONA DO MESTRE">ZONA DO MESTRE</h3>
+      <p class="senha-personagem">ACESSO RESTRITO AO SINTONIZADOR</p>
+      <p class="senha-instrucao">Informe a senha mestre para acessar.</p>
+      <input type="password" id="senha-input" placeholder="SENHA MESTRE" autocomplete="off" spellcheck="false">
+      <button id="senha-confirmar">DESBLOQUEAR</button>
+      <p class="senha-erro" id="senha-erro"></p>
+    </div>
+  </div>
+
+  <!-- HEADER DA ZONA DO MESTRE -->
+  <header id="mestre-header" class="hidden">
+    <div class="mestre-header-content">
+      <div class="mestre-titulo-bloco">
+        <span class="broadcast-label">&#9608; SINTONIZADOR &#9608;</span>
+        <h1 class="glitch" data-text="ZONA DO MESTRE">ZONA DO MESTRE</h1>
+      </div>
+      <div class="mestre-header-acoes">
+        <span class="ficha-sync-status" id="mestre-sync-status"></span>
+        <button class="mestre-sair" id="mestre-sair">&#9211; SAIR</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main id="mestre-conteudo" class="hidden">
+
+    <!-- DASHBOARD -->
+    <section class="mestre-secao">
+      <h2 class="mestre-secao-titulo">// DASHBOARD DA PARTY</h2>
+      <div class="mestre-dashboard">
+        <div class="mestre-card mestre-card-stress">
+          <span class="mestre-card-label">STRESS</span>
+          <div class="mestre-card-barra"><div class="mestre-card-fill" id="dash-stress-fill"></div></div>
+          <span class="mestre-card-valor"><strong id="dash-stress-val">0</strong> / <span id="dash-stress-max">30</span></span>
+        </div>
+        <div class="mestre-card mestre-card-sinal">
+          <span class="mestre-card-label">SINAL</span>
+          <div class="mestre-card-barra"><div class="mestre-card-fill" id="dash-sinal-fill"></div></div>
+          <span class="mestre-card-valor"><strong id="dash-sinal-val">0</strong> / <span id="dash-sinal-max">20</span></span>
+        </div>
+        <div class="mestre-card mestre-card-chaves">
+          <span class="mestre-card-label">CHAVES</span>
+          <div class="mestre-card-barra"><div class="mestre-card-fill" id="dash-chaves-fill"></div></div>
+          <span class="mestre-card-valor"><strong id="dash-chaves-val">15</strong> / <span id="dash-chaves-max">15</span></span>
+        </div>
+        <div class="mestre-card mestre-card-pistas">
+          <span class="mestre-card-label">PISTAS DA PARTY</span>
+          <div class="mestre-card-numero-grande" id="dash-pistas-val">0</div>
+          <span class="mestre-card-valor-secundario"><span id="dash-itens-val">0</span> itens no invent&aacute;rio</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ALERTAS (condicional) -->
+    <section class="mestre-secao mestre-alertas hidden" id="mestre-alertas-secao">
+      <h2 class="mestre-secao-titulo">&#9888; ALERTAS</h2>
+      <div id="mestre-alertas-lista"></div>
+    </section>
+
+    <!-- ATIVIDADE RECENTE -->
+    <section class="mestre-secao">
+      <h2 class="mestre-secao-titulo">// ATIVIDADE RECENTE</h2>
+      <div class="mestre-atividade" id="mestre-atividade">
+        <p class="mestre-atividade-vazio">Aguardando atividade dos sintonizados...</p>
+      </div>
+    </section>
+
+    <!-- NOTAS DA SESSÃO -->
+    <section class="mestre-secao">
+      <h2 class="mestre-secao-titulo">// NOTAS DA SESS&Atilde;O</h2>
+      <textarea class="mestre-notas-party" id="mestre-notas-party" placeholder="Anota&ccedil;&otilde;es gerais sobre a sess&atilde;o, NPCs, ganchos, hist&oacute;ria..."></textarea>
+    </section>
+
+    <!-- PERSONAGENS -->
+    <section class="mestre-secao">
+      <h2 class="mestre-secao-titulo">// PERSONAGENS</h2>
+      <div class="mestre-personagens" id="mestre-personagens">
+        <!-- Cards renderizados via JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="footer-content">
+      <div class="footer-line"></div>
+      <p class="footer-text">FIM DA FITA &#9608;&#9608; REBOBINE POR FAVOR</p>
+      <p class="footer-sub">LIMIAR: ZONA DO MESTRE</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/playbooks.js"></script>
+  <script src="js/mestre.js"></script>
+</body>
+</html>

@@ -204,32 +204,82 @@
     if (!nav) return;
 
     var heroSection = document.getElementById('hero');
-    if (!heroSection) return;
 
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          nav.classList.remove('visible');
-        } else {
-          nav.classList.add('visible');
-        }
-      });
-    }, { threshold: 0.3 });
+    // Show/hide nav based on hero visibility
+    if (heroSection) {
+      var heroObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            nav.classList.remove('visible');
+          } else {
+            nav.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.3 });
+      heroObserver.observe(heroSection);
+    } else {
+      nav.classList.add('visible');
+    }
 
-    observer.observe(heroSection);
-
-    // Smooth scroll for nav links
+    // Smooth scroll only for internal anchor links (#); external links navigate normally.
     var links = nav.querySelectorAll('.nav-link');
     links.forEach(function (link) {
       link.addEventListener('click', function (e) {
-        e.preventDefault();
-        var targetId = this.getAttribute('href').substring(1);
-        var target = document.getElementById(targetId);
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth' });
+        var href = this.getAttribute('href') || '';
+        if (href.charAt(0) === '#' && href.length > 1) {
+          e.preventDefault();
+          var target = document.getElementById(href.substring(1));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }
         }
       });
     });
+
+    // Active section tracking — highlights the link for the section currently in view
+    var trackedSections = [];
+    links.forEach(function (link) {
+      var href = link.getAttribute('href') || '';
+      if (href.charAt(0) === '#' && href.length > 1) {
+        var section = document.getElementById(href.substring(1));
+        if (section) {
+          trackedSections.push({ section: section, link: link });
+        }
+      }
+    });
+
+    if (trackedSections.length > 0) {
+      var activeMap = new Map();
+      var sectionObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          activeMap.set(entry.target, entry.intersectionRatio);
+        });
+
+        // Find the section with highest visibility
+        var bestEntry = null;
+        var bestRatio = 0;
+        trackedSections.forEach(function (item) {
+          var ratio = activeMap.get(item.section) || 0;
+          if (ratio > bestRatio) {
+            bestRatio = ratio;
+            bestEntry = item;
+          }
+        });
+
+        // Update active class
+        links.forEach(function (l) { l.classList.remove('active'); });
+        if (bestEntry && bestRatio > 0) {
+          bestEntry.link.classList.add('active');
+        }
+      }, {
+        threshold: [0, 0.25, 0.5, 0.75, 1],
+        rootMargin: '-20% 0px -40% 0px'
+      });
+
+      trackedSections.forEach(function (item) {
+        sectionObserver.observe(item.section);
+      });
+    }
   }
 
   /* --- SECTION REVEAL ON SCROLL --- */
@@ -262,21 +312,19 @@
   var currentSelections = [];
 
   function initSupabase() {
-    var config = window.LIMIAR_CONFIG;
-    if (!config || !config.SUPABASE_URL || config.SUPABASE_URL === 'SUA_URL_AQUI') {
-      console.warn('Supabase não configurado. Copie config.example.js para config.js e preencha.');
+    db = window.getLimiarSupabase ? window.getLimiarSupabase() : null;
+    if (!db) {
+      console.warn('Supabase não configurado ou SDK não carregou.');
       return false;
     }
-    if (typeof window.supabase === 'undefined') {
-      console.warn('Supabase SDK não carregou. Seleção offline.');
-      return false;
-    }
-    db = window.supabase.createClient(config.SUPABASE_URL, config.SUPABASE_KEY);
     return true;
   }
 
   /* --- MECHANICAL KEYBOARD SOUND (Web Audio API) --- */
   var audioCtx = null;
+
+  // Exposto globalmente pra ser reusado em fichas.js
+  window.playKeySound = function () { playKeySound(); };
 
   function playKeySound() {
     if (!audioCtx) {
@@ -322,6 +370,7 @@
   /* --- NAME MODAL --- */
   function initNameModal() {
     var modal = document.getElementById('name-modal');
+    if (!modal) return; // só existe no index.html
     var input = document.getElementById('player-name-input');
     var btn = document.getElementById('name-confirm-btn');
     var errorEl = document.getElementById('name-error');
@@ -652,6 +701,7 @@
   /* --- FICHA MODAL (CHARACTER SHEET) --- */
   function initFichaModal() {
     var modal = document.getElementById('ficha-modal');
+    if (!modal) return; // só existe no index.html
     var overlay = modal.querySelector('.ficha-overlay');
     var btnFechar = document.getElementById('ficha-fechar');
     var fichaImg = document.getElementById('ficha-img');

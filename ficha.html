@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ficha do Sintonizado — Limiar: Controle de Danos">
+  <meta property="og:title" content="Ficha — Limiar">
+  <meta property="og:type" content="website">
+  <title>LIMIAR: Ficha</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-ficha">
+
+  <!-- CANVAS DE RUÍDO ESTÁTICO -->
+  <canvas id="static-noise"></canvas>
+
+  <!-- VHS TRACKING BAND -->
+  <div id="vhs-tracking"></div>
+
+  <!-- VHS TIMESTAMP -->
+  <div id="vhs-timestamp">
+    <span class="rec-dot">&#9679;</span> REC <span id="vhs-time">23:47:00</span> 12.SET.1999
+  </div>
+
+  <!-- NAVEGAÇÃO PRINCIPAL (3 abas) -->
+  <nav id="main-nav">
+    <a href="/" class="main-nav-link">INÍCIO</a>
+    <a href="regras" class="main-nav-link">REGRAS</a>
+    <a href="fichas" class="main-nav-link active">FICHAS</a>
+  </nav>
+
+  <!-- MODAL DE SENHA -->
+  <div id="senha-modal" class="senha-modal hidden">
+    <div class="senha-overlay"></div>
+    <div class="senha-content">
+      <div class="senha-static"></div>
+      <a href="fichas" class="senha-fechar" title="Voltar">&times;</a>
+      <h3 class="senha-titulo glitch" data-text="ACESSO RESTRITO">ACESSO RESTRITO</h3>
+      <p class="senha-personagem" id="senha-personagem">PERSONAGEM</p>
+      <p class="senha-instrucao">Informe a senha para acessar a ficha.</p>
+      <input type="password" id="senha-input" placeholder="SENHA" autocomplete="off" spellcheck="false">
+      <button id="senha-confirmar">DESBLOQUEAR</button>
+      <p class="senha-erro" id="senha-erro"></p>
+    </div>
+  </div>
+
+  <!-- CABEÇALHO DA FICHA -->
+  <header id="ficha-header" class="ficha-page-header hidden">
+    <a href="fichas" class="ficha-voltar">&#9664; VOLTAR PARA FICHAS</a>
+    <span class="ficha-sync-status" id="ficha-sync-status"></span>
+
+    <div class="ficha-cabecalho-grid">
+      <div class="ficha-foto-page">
+        <div class="ficha-foto-static"></div>
+        <img id="fc-foto" src="" alt="">
+      </div>
+      <div class="ficha-cabecalho-info">
+        <h1 class="fc-nome glitch" id="fc-nome" data-text=""></h1>
+        <span class="fc-arquetipo" id="fc-arquetipo"></span>
+        <span class="fc-jogador">Jogador: <strong id="fc-jogador"></strong></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- TABS -->
+  <nav class="ficha-tabs hidden" id="ficha-tabs" role="tablist">
+    <button class="ficha-tab tab-active" data-tab="personagem" role="tab">PERSONAGEM</button>
+    <button class="ficha-tab" data-tab="status" role="tab">STATUS</button>
+    <button class="ficha-tab" data-tab="inventario" role="tab">INVENT&Aacute;RIO</button>
+  </nav>
+
+  <!-- CONTEÚDO DAS TABS -->
+  <main class="ficha-tab-conteudo hidden" id="ficha-conteudo">
+
+    <!-- TAB: PERSONAGEM -->
+    <section class="ficha-tab-content tab-active" data-tab="personagem">
+      <blockquote class="fc-citacao" id="fc-citacao"></blockquote>
+
+      <div class="fc-bloco">
+        <h4 class="fc-label">// ATRIBUTOS</h4>
+        <div class="fc-atributos">
+          <div class="fc-atr atr-dia"><span class="fc-atr-icon">&#9728;</span> DIA <strong id="fc-dia"></strong></div>
+          <div class="fc-atr atr-noite"><span class="fc-atr-icon">&#9790;</span> NOITE <strong id="fc-noite"></strong></div>
+          <div class="fc-atr atr-profundo"><span class="fc-atr-icon">&#10044;</span> PROFUNDO <strong id="fc-profundo"></strong></div>
+        </div>
+      </div>
+
+      <div class="fc-bloco">
+        <h4 class="fc-label">// MOVIMENTOS ESPECIAIS</h4>
+        <div id="fc-movimentos"></div>
+      </div>
+
+      <div class="fc-bloco">
+        <h4 class="fc-label">// SEU CANTO DA LOCADORA</h4>
+        <p class="fc-readonly-text" id="fc-canto"></p>
+      </div>
+
+      <div class="fc-bloco">
+        <h4 class="fc-label">// EQUIPAMENTO</h4>
+        <p class="fc-readonly-text" id="fc-equipamento"></p>
+      </div>
+    </section>
+
+    <!-- TAB: STATUS -->
+    <section class="ficha-tab-content" data-tab="status">
+      <div class="fc-bloco">
+        <h4 class="fc-label">// STATUS</h4>
+
+        <div class="fc-medidor">
+          <span class="fc-medidor-label">STRESS</span>
+          <div class="fc-bolas" data-tipo="stress" data-max="6" id="fc-bolas-stress"></div>
+          <span class="fc-medidor-info">Recupera na Locadora</span>
+        </div>
+
+        <div class="fc-medidor">
+          <span class="fc-medidor-label fc-medidor-sinal">SINAL</span>
+          <div class="fc-bolas" data-tipo="sinal" data-max="4" id="fc-bolas-sinal"></div>
+          <span class="fc-medidor-info">N&Atilde;O recupera com descanso</span>
+        </div>
+
+        <div class="fc-medidor">
+          <span class="fc-medidor-label fc-medidor-chaves">CHAVES</span>
+          <div class="fc-bolas" data-tipo="chaves" data-max="3" id="fc-bolas-chaves"></div>
+          <span class="fc-medidor-info">Desfaz morte ou altera cena</span>
+        </div>
+      </div>
+
+      <div class="fc-bloco">
+        <h4 class="fc-label">// CONDI&Ccedil;&Otilde;ES ATUAIS</h4>
+        <textarea class="fc-textarea" id="fc-condicoes" placeholder="Tonto. Engasgado de medo. Convencido de que viu o pai morto..."></textarea>
+      </div>
+
+      <div class="fc-bloco">
+        <h4 class="fc-label">// RELA&Ccedil;&Otilde;ES COM OS OUTROS SINTONIZADOS</h4>
+        <div class="fc-relacoes" id="fc-relacoes"></div>
+      </div>
+
+      <div class="fc-bloco">
+        <h4 class="fc-label">// PERGUNTAS PESSOAIS RESPONDIDAS</h4>
+        <div id="fc-perguntas"></div>
+      </div>
+    </section>
+
+    <!-- TAB: INVENTÁRIO -->
+    <section class="ficha-tab-content" data-tab="inventario">
+      <div class="fc-bloco">
+        <h4 class="fc-label">// PISTAS COLETADAS</h4>
+        <div class="inv-lista" id="inv-pistas"></div>
+        <button type="button" class="inv-adicionar" data-tipo="pistas">+ ADICIONAR PISTA</button>
+      </div>
+
+      <div class="fc-bloco">
+        <h4 class="fc-label">// ITENS NO INVENT&Aacute;RIO</h4>
+        <div class="inv-lista" id="inv-itens"></div>
+        <button type="button" class="inv-adicionar" data-tipo="itens">+ ADICIONAR ITEM</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="footer-content">
+      <div class="footer-line"></div>
+      <p class="footer-text">FIM DA FITA &#9608;&#9608; REBOBINE POR FAVOR</p>
+      <p class="footer-sub">LIMIAR: CONTROLE DE DANOS &mdash; MORRO ALTO, RJ &mdash; 1999</p>
+      <p class="footer-final" data-corrupt>A fita acabou. Mas o sinal continua.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/playbooks.js"></script>
+  <script src="js/ficha.js"></script>
+</body>
+</html>
