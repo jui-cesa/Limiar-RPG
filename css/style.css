@@ -1471,6 +1471,343 @@ body.player-locked .arquetipo-card.my-selection .btn-selecionar.selected {
 }
 
 /* ========================================
+   LIVRO DE REGRAS
+   ======================================== */
+#regras {
+  padding: 6rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.livro-epigrafe {
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 1.5rem;
+  border-top: 1px solid var(--crt-green-dim);
+  border-bottom: 1px solid var(--crt-green-dim);
+  background: rgba(51, 255, 51, 0.02);
+}
+
+.livro-epigrafe p {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  font-style: italic;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+.livro-epigrafe span {
+  font-family: var(--font-crt);
+  font-size: 0.75rem;
+  color: var(--crt-amber);
+  letter-spacing: 0.15em;
+}
+
+.livro-conteudo {
+  max-width: 800px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.capitulo {
+  background: rgba(10, 10, 10, 0.85);
+  border: 1px solid #1a1a1a;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+}
+
+.capitulo[open] {
+  border-color: var(--crt-green-dim);
+  box-shadow: 0 0 15px rgba(51, 255, 51, 0.04);
+}
+
+.capitulo summary {
+  font-family: var(--font-crt);
+  font-size: 1rem;
+  color: var(--crt-green);
+  letter-spacing: 0.15em;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: background 0.3s ease;
+  user-select: none;
+}
+
+.capitulo summary::-webkit-details-marker {
+  display: none;
+}
+
+.capitulo summary::after {
+  content: '+';
+  margin-left: auto;
+  font-size: 1.4rem;
+  color: var(--crt-amber);
+  transition: transform 0.3s ease;
+  line-height: 1;
+}
+
+.capitulo[open] summary::after {
+  content: '\2212';
+  transform: none;
+}
+
+.capitulo summary:hover {
+  background: rgba(51, 255, 51, 0.04);
+  text-shadow: 0 0 10px rgba(51, 255, 51, 0.3);
+}
+
+.cap-num {
+  font-family: var(--font-crt);
+  color: var(--crt-amber);
+  font-size: 0.9rem;
+  opacity: 0.7;
+  letter-spacing: 0;
+}
+
+.cap-body {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  border-top: 1px solid #1a1a1a;
+  padding-top: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  line-height: 1.8;
+}
+
+.cap-body p {
+  margin-bottom: 0.8rem;
+}
+
+.cap-body strong {
+  color: var(--crt-green);
+}
+
+.cap-body em {
+  color: var(--crt-amber);
+  font-style: italic;
+}
+
+.cap-body ul,
+.cap-body ol {
+  margin-bottom: 1rem;
+  padding-left: 0;
+  list-style: none;
+}
+
+.cap-body ul li,
+.cap-body ol li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.cap-body ul li::before {
+  content: '>';
+  position: absolute;
+  left: 0;
+  color: var(--crt-green-dim);
+  font-family: var(--font-crt);
+}
+
+.cap-body ol {
+  counter-reset: cap-list;
+}
+
+.cap-body ol li {
+  counter-increment: cap-list;
+}
+
+.cap-body ol li::before {
+  content: counter(cap-list) '.';
+  position: absolute;
+  left: 0;
+  color: var(--crt-amber);
+  font-family: var(--font-crt);
+}
+
+.cap-sub {
+  font-family: var(--font-crt);
+  font-size: 0.95rem;
+  color: var(--crt-amber);
+  letter-spacing: 0.15em;
+  margin: 1.2rem 0 0.6rem 0;
+  text-transform: uppercase;
+}
+
+.cap-quote {
+  border-left: 3px solid var(--crt-green-dim);
+  background: rgba(51, 255, 51, 0.03);
+  padding: 0.8rem 1rem;
+  margin: 0.8rem 0;
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+.cap-quote em {
+  color: var(--text-primary);
+}
+
+.cap-quote strong {
+  color: var(--crt-green);
+}
+
+/* Tabelas */
+.livro-tabela {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.85rem;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.livro-tabela th {
+  font-family: var(--font-crt);
+  font-size: 0.8rem;
+  color: var(--crt-amber);
+  letter-spacing: 0.15em;
+  text-align: left;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--crt-green-dim);
+  background: rgba(5, 5, 5, 0.6);
+  text-transform: uppercase;
+}
+
+.livro-tabela td {
+  padding: 0.5rem 0.8rem;
+  border-bottom: 1px solid #1a1a1a;
+  color: var(--text-primary);
+  vertical-align: top;
+}
+
+.livro-tabela tr:last-child td {
+  border-bottom: none;
+}
+
+.livro-tabela tr:hover td {
+  background: rgba(51, 255, 51, 0.02);
+}
+
+/* Atributo blocos */
+.atributo-bloco {
+  padding: 1rem 1.2rem;
+  margin: 0.8rem 0;
+  border-left: 3px solid;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.atributo-bloco h4 {
+  margin-top: 0 !important;
+}
+
+.atributo-bloco-dia {
+  border-color: var(--crt-amber);
+}
+
+.atributo-bloco-dia h4 {
+  color: var(--crt-amber);
+}
+
+.atributo-bloco-noite {
+  border-color: #4466cc;
+}
+
+.atributo-bloco-noite h4 {
+  color: #6688dd;
+}
+
+.atributo-bloco-profundo {
+  border-color: #9933cc;
+}
+
+.atributo-bloco-profundo h4 {
+  color: #bb55dd;
+}
+
+/* Medidores */
+.livro-medidor {
+  font-family: var(--font-crt);
+  font-size: 1rem;
+  color: var(--crt-green);
+  letter-spacing: 0.2em;
+  margin: 0.8rem 0;
+}
+
+.livro-medidor-sinal {
+  color: var(--blood-red);
+}
+
+.livro-medidor-chave {
+  color: var(--crt-amber);
+}
+
+.medidor-bola {
+  margin: 0 0.15rem;
+  font-size: 1.1rem;
+}
+
+/* Pre formatado */
+.livro-pre {
+  font-family: var(--font-crt);
+  font-size: 0.85rem;
+  color: var(--crt-green);
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #1a1a1a;
+  padding: 1rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  line-height: 1.6;
+  letter-spacing: 0.05em;
+  overflow-x: auto;
+}
+
+/* Rodapé do livro */
+.livro-rodape {
+  max-width: 800px;
+  width: 100%;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #1a1a1a;
+  text-align: center;
+}
+
+.livro-rodape p {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin-bottom: 0.8rem;
+}
+
+.livro-rodape strong {
+  color: var(--crt-green);
+}
+
+.rodape-quote {
+  font-family: var(--font-crt);
+  color: var(--crt-amber) !important;
+  font-style: italic;
+  letter-spacing: 0.1em;
+  margin: 1.2rem 0 !important;
+}
+
+.rodape-credito {
+  font-size: 0.75rem !important;
+  opacity: 0.5;
+  margin-top: 1.5rem !important;
+}
+
+/* ========================================
    FICHA DO PERSONAGEM (MODAL)
    ======================================== */
 .ficha-modal {
@@ -1835,6 +2172,40 @@ body.player-locked .arquetipo-card.my-selection .btn-selecionar.selected {
 
   .versao-card.indisponivel::after {
     font-size: 0.9rem;
+  }
+
+  /* Livro de regras mobile */
+  .capitulo summary {
+    font-size: 0.85rem;
+    padding: 0.8rem 1rem;
+    gap: 0.6rem;
+  }
+
+  .cap-num {
+    font-size: 0.75rem;
+  }
+
+  .cap-body {
+    padding: 1rem;
+    font-size: 0.85rem;
+  }
+
+  .livro-tabela {
+    font-size: 0.75rem;
+  }
+
+  .livro-tabela th,
+  .livro-tabela td {
+    padding: 0.4rem 0.5rem;
+  }
+
+  .livro-pre {
+    font-size: 0.7rem;
+    padding: 0.8rem;
+  }
+
+  .livro-epigrafe {
+    padding: 1rem;
   }
 
   /* Facções */
