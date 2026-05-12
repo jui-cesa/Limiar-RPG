@@ -3737,6 +3737,356 @@ body.player-locked .arquetipo-card.my-selection .btn-selecionar.selected {
 }
 
 /* ========================================
+   BINGO DAS FACÇÕES
+   ======================================== */
+.bingo-faccoes {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.bingo-faccao,
+.bingo-vigilia-bloco {
+  --faccao-cor: var(--crt-green);
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid #1a1a1a;
+  border-left: 3px solid var(--faccao-cor);
+  padding: 1rem 1.2rem;
+}
+
+.bingo-faccao-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.bingo-faccao-nome {
+  font-family: var(--font-crt);
+  font-size: 1.05rem;
+  color: var(--faccao-cor);
+  letter-spacing: 0.2em;
+  text-shadow: 0 0 10px color-mix(in srgb, var(--faccao-cor) 40%, transparent);
+  flex: 1;
+  min-width: 200px;
+}
+
+.bingo-faccao-nivel {
+  font-family: var(--font-crt);
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  letter-spacing: 0.15em;
+}
+
+.bingo-faccao-nivel strong {
+  color: var(--faccao-cor);
+  font-size: 1.1rem;
+}
+
+.bingo-reset {
+  background: transparent;
+  border: 1px solid #2a2a2a;
+  color: var(--text-dim);
+  font-family: var(--font-crt);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.bingo-reset:hover {
+  color: var(--blood-red);
+  border-color: var(--blood-red);
+  background: rgba(139, 0, 0, 0.1);
+}
+
+/* Trilha de bolinhas */
+.bingo-trilha {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0;
+  margin-bottom: 1rem;
+  padding: 0.5rem 0.3rem;
+  overflow-x: auto;
+}
+
+.bingo-marco {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.bingo-bolinha {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--faccao-cor);
+  background: rgba(0, 0, 0, 0.6);
+  color: var(--text-dim);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.bingo-bolinha:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 12px var(--faccao-cor);
+}
+
+.bingo-bolinha.preenchida {
+  background: color-mix(in srgb, var(--faccao-cor) 30%, transparent);
+  color: var(--faccao-cor);
+  text-shadow: 0 0 6px var(--faccao-cor);
+}
+
+.bingo-bolinha.atual {
+  background: var(--faccao-cor);
+  color: #000;
+  box-shadow:
+    0 0 15px var(--faccao-cor),
+    0 0 30px color-mix(in srgb, var(--faccao-cor) 40%, transparent);
+  animation: bingo-pulse 2s ease-in-out infinite;
+  transform: scale(1.1);
+}
+
+@keyframes bingo-pulse {
+  0%, 100% { box-shadow: 0 0 15px var(--faccao-cor), 0 0 30px color-mix(in srgb, var(--faccao-cor) 40%, transparent); }
+  50% { box-shadow: 0 0 25px var(--faccao-cor), 0 0 50px color-mix(in srgb, var(--faccao-cor) 50%, transparent); }
+}
+
+.bingo-conector {
+  flex: 1;
+  height: 2px;
+  background: #1a1a1a;
+  min-width: 12px;
+  margin: 0 -1px;
+  position: relative;
+  z-index: 1;
+}
+
+.bingo-conector.preenchido {
+  background: var(--faccao-cor);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--faccao-cor) 50%, transparent);
+}
+
+/* Labels dos estágios (lista expansível) */
+.bingo-labels {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.bingo-estagio {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #1a1a1a;
+  transition: border-color 0.3s ease;
+}
+
+.bingo-estagio.estagio-alcancado {
+  border-color: color-mix(in srgb, var(--faccao-cor) 30%, #1a1a1a);
+}
+
+.bingo-estagio.estagio-atual {
+  border-color: var(--faccao-cor);
+  background: color-mix(in srgb, var(--faccao-cor) 6%, rgba(0, 0, 0, 0.3));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--faccao-cor) 20%, transparent);
+}
+
+.bingo-estagio summary {
+  font-family: var(--font-crt);
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  letter-spacing: 0.12em;
+  padding: 0.6rem 0.9rem;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.bingo-estagio summary::-webkit-details-marker {
+  display: none;
+}
+
+.bingo-estagio summary::after {
+  content: '+';
+  margin-left: auto;
+  color: var(--text-dim);
+  font-size: 1.1rem;
+  transition: transform 0.25s ease;
+}
+
+.bingo-estagio[open] summary::after {
+  content: '\2212';
+}
+
+.bingo-estagio summary:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.bingo-estagio.estagio-atual summary {
+  color: var(--faccao-cor);
+  text-shadow: 0 0 8px color-mix(in srgb, var(--faccao-cor) 40%, transparent);
+}
+
+.bingo-estagio.estagio-alcancado:not(.estagio-atual) summary {
+  color: color-mix(in srgb, var(--faccao-cor) 70%, var(--text-primary));
+}
+
+.estagio-num {
+  font-family: var(--font-crt);
+  color: var(--faccao-cor);
+  letter-spacing: 0;
+  opacity: 0.7;
+  width: 1.2rem;
+  flex-shrink: 0;
+}
+
+.estagio-consequencia {
+  padding: 0 0.9rem 0.9rem 2.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  line-height: 1.7;
+  font-style: italic;
+}
+
+/* Metadados (objetivo, avançam, recuam) */
+.bingo-meta {
+  margin-top: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px dashed #1a1a1a;
+}
+
+.bingo-meta summary {
+  font-family: var(--font-crt);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  letter-spacing: 0.15em;
+  padding: 0.6rem 0.9rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.bingo-meta summary::-webkit-details-marker {
+  display: none;
+}
+
+.bingo-meta summary:hover {
+  color: var(--faccao-cor);
+}
+
+.bingo-meta-body {
+  padding: 0.4rem 0.9rem 1rem 0.9rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  line-height: 1.7;
+}
+
+.bingo-objetivo {
+  margin-bottom: 0.8rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.bingo-objetivo strong {
+  color: var(--faccao-cor);
+}
+
+.bingo-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.bingo-meta-grid strong {
+  font-family: var(--font-crt);
+  color: var(--faccao-cor);
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.bingo-meta-grid ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.bingo-meta-grid li {
+  position: relative;
+  padding-left: 1rem;
+  margin-bottom: 0.3rem;
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.bingo-meta-grid li::before {
+  content: '>';
+  position: absolute;
+  left: 0;
+  color: var(--faccao-cor);
+  opacity: 0.5;
+}
+
+/* Vigília (bloco especial) */
+.bingo-vigilia {
+  margin-top: 1.5rem;
+}
+
+.bingo-vigilia-bloco {
+  background: rgba(15, 5, 20, 0.4);
+}
+
+.bingo-vigilia-sub {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.bingo-vigilia-blocos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.8rem;
+}
+
+.bingo-vigilia-item {
+  background: rgba(0, 0, 0, 0.3);
+  border-left: 2px solid color-mix(in srgb, var(--faccao-cor) 50%, transparent);
+  padding: 0.7rem 0.9rem;
+}
+
+.bingo-vigilia-item h5 {
+  font-family: var(--font-crt);
+  font-size: 0.78rem;
+  color: var(--faccao-cor);
+  letter-spacing: 0.18em;
+  margin-bottom: 0.4rem;
+}
+
+.bingo-vigilia-item p {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-primary);
+  line-height: 1.65;
+}
+
+/* ========================================
    RESPONSIVE
    ======================================== */
 @media (max-width: 768px) {
@@ -3826,6 +4176,25 @@ body.player-locked .arquetipo-card.my-selection .btn-selecionar.selected {
   .fichas-grid {
     grid-template-columns: 1fr;
     max-width: 400px;
+  }
+
+  /* Bingo das facções mobile */
+  .bingo-bolinha {
+    width: 26px;
+    height: 26px;
+    font-size: 0.85rem;
+  }
+
+  .bingo-meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bingo-vigilia-blocos {
+    grid-template-columns: 1fr;
+  }
+
+  .estagio-consequencia {
+    padding-left: 0.9rem;
   }
 
   /* Zona do mestre mobile */

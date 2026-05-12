@@ -8,6 +8,9 @@
 
   var PLAYBOOKS = window.LIMIAR_PLAYBOOKS;
   var ORDEM = window.LIMIAR_ORDEM;
+  var FACCOES = window.LIMIAR_FACCOES;
+  var FACCOES_ORDEM = window.LIMIAR_FACCOES_ORDEM || [];
+  var VIGILIA = window.LIMIAR_VIGILIA;
   var STORAGE_KEY = 'limiar_mestre_senha';
 
   var db = null;
@@ -174,6 +177,7 @@
           if (ta && document.activeElement !== ta) {
             ta.value = mestreConfig.notas_party || '';
           }
+          renderBingo();
         }
       )
       .subscribe();
@@ -214,7 +218,145 @@
     renderAlertas();
     renderAtividade();
     renderNotasParty();
+    renderBingo();
+    renderVigilia();
     renderPersonagens();
+  }
+
+  // ========================================
+  // BINGO DAS FACÇÕES
+  // ========================================
+  function getBingoState() {
+    if (mestreConfig && mestreConfig.bingo_faccoes && typeof mestreConfig.bingo_faccoes === 'object') {
+      return mestreConfig.bingo_faccoes;
+    }
+    return { iris: 0, decon: 0 };
+  }
+
+  function renderBingo() {
+    var container = document.getElementById('bingo-faccoes');
+    if (!container || !FACCOES) return;
+    container.innerHTML = '';
+    var state = getBingoState();
+
+    FACCOES_ORDEM.forEach(function (key) {
+      var f = FACCOES[key];
+      if (!f) return;
+      var nivel = state[key] || 0;
+
+      var bloco = document.createElement('div');
+      bloco.className = 'bingo-faccao';
+      bloco.setAttribute('data-faccao', key);
+      bloco.style.setProperty('--faccao-cor', f.cor);
+
+      // Header
+      var header = '<div class="bingo-faccao-header">' +
+        '<h3 class="bingo-faccao-nome">&#9646; ' + f.nome + '</h3>' +
+        '<span class="bingo-faccao-nivel">N&iacute;vel <strong>' + nivel + '</strong> / ' + f.estagios.length + '</span>' +
+        '<button class="bingo-reset" data-faccao="' + key + '" title="Zerar bingo">ZERAR</button>' +
+      '</div>';
+
+      // Trilha de bolinhas
+      var trilha = '<div class="bingo-trilha">';
+      for (var i = 1; i <= f.estagios.length; i++) {
+        var preenchida = i <= nivel;
+        var atual = i === nivel;
+        var est = f.estagios[i - 1];
+        trilha += '<div class="bingo-marco" data-faccao="' + key + '" data-idx="' + i + '">' +
+          '<button class="bingo-bolinha' + (preenchida ? ' preenchida' : '') + (atual ? ' atual' : '') + '"' +
+            ' data-faccao="' + key + '" data-idx="' + i + '" title="' + escapeAttr(est.nome) + '">' +
+            (preenchida ? '&#9679;' : '&#9675;') +
+          '</button>' +
+          (i < f.estagios.length ? '<span class="bingo-conector' + (i < nivel ? ' preenchido' : '') + '"></span>' : '') +
+        '</div>';
+      }
+      trilha += '</div>';
+
+      // Labels dos estágios (clicáveis para abrir consequência)
+      var labels = '<div class="bingo-labels">';
+      f.estagios.forEach(function (est, idx) {
+        var n = idx + 1;
+        var atualLabel = n === nivel;
+        labels += '<details class="bingo-estagio' + (atualLabel ? ' estagio-atual' : '') + (n <= nivel ? ' estagio-alcancado' : '') + '">' +
+          '<summary><span class="estagio-num">' + n + '.</span> ' + est.nome + '</summary>' +
+          '<p class="estagio-consequencia">' + est.consequencia + '</p>' +
+        '</details>';
+      });
+      labels += '</div>';
+
+      // Metadata (objetivo + avançam + recuam) - colapsável
+      var meta = '<details class="bingo-meta">' +
+        '<summary>&#9656; Como esta fac&ccedil;&atilde;o se move</summary>' +
+        '<div class="bingo-meta-body">' +
+          '<p class="bingo-objetivo"><strong>Querem:</strong> ' + f.objetivo + '</p>' +
+          '<div class="bingo-meta-grid">' +
+            '<div><strong>Avan&ccedil;am quando:</strong><ul>' + f.avancam.map(function (a) { return '<li>' + a + '</li>'; }).join('') + '</ul></div>' +
+            '<div><strong>Recuam quando:</strong><ul>' + f.recuam.map(function (r) { return '<li>' + r + '</li>'; }).join('') + '</ul></div>' +
+          '</div>' +
+        '</div>' +
+      '</details>';
+
+      bloco.innerHTML = header + trilha + labels + meta;
+      container.appendChild(bloco);
+    });
+
+    // Bind cliques nas bolinhas
+    container.querySelectorAll('.bingo-bolinha').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var faccao = btn.getAttribute('data-faccao');
+        var idx = parseInt(btn.getAttribute('data-idx'), 10);
+        clicarMarco(faccao, idx);
+      });
+    });
+
+    // Bind reset
+    container.querySelectorAll('.bingo-reset').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (confirm('Zerar o bingo desta facção?')) {
+          setEstagioFaccao(btn.getAttribute('data-faccao'), 0);
+        }
+      });
+    });
+  }
+
+  function renderVigilia() {
+    var container = document.getElementById('bingo-vigilia');
+    if (!container || !VIGILIA) return;
+    var html = '<div class="bingo-vigilia-bloco" style="--faccao-cor: ' + VIGILIA.cor + '">' +
+      '<div class="bingo-faccao-header">' +
+        '<h3 class="bingo-faccao-nome">&#9646; ' + VIGILIA.nome + '</h3>' +
+        '<span class="bingo-vigilia-sub">' + VIGILIA.subtitulo + '</span>' +
+      '</div>' +
+      '<div class="bingo-vigilia-blocos">';
+    VIGILIA.blocos.forEach(function (b) {
+      html += '<div class="bingo-vigilia-item"><h5>' + b.titulo + '</h5><p>' + b.texto + '</p></div>';
+    });
+    html += '</div></div>';
+    container.innerHTML = html;
+  }
+
+  function clicarMarco(faccao, idx) {
+    var state = getBingoState();
+    var atual = state[faccao] || 0;
+    // Click no marco atual → recua 1
+    // Click em outro marco → vira o atual
+    var novo = (idx === atual) ? (idx - 1) : idx;
+    if (novo < 0) novo = 0;
+    setEstagioFaccao(faccao, novo);
+  }
+
+  function setEstagioFaccao(faccao, novoNivel) {
+    var state = getBingoState();
+    state[faccao] = novoNivel;
+    if (!mestreConfig) mestreConfig = {};
+    mestreConfig.bingo_faccoes = state;
+    saveConfig('bingo_faccoes', state);
+    renderBingo();
+  }
+
+  function escapeAttr(str) {
+    if (str == null) return '';
+    return String(str).replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
   function renderDashboard() {
