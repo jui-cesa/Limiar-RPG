@@ -3720,6 +3720,37 @@ body.player-locked .arquetipo-card.my-selection .btn-selecionar.selected {
   background: rgba(0, 0, 0, 0.4);
 }
 
+.mp-notas-jogador {
+  background: rgba(51, 255, 51, 0.03);
+  border: 1px solid rgba(51, 255, 51, 0.18);
+  padding: 1rem;
+}
+
+.mp-notas-jogador .fc-label {
+  color: var(--crt-green);
+}
+
+.mp-notas-jogador-ta {
+  min-height: 120px;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Notas do jogador na ficha (tab NOTAS) */
+.fc-notas-textarea {
+  min-height: 320px;
+  line-height: 1.75;
+  font-size: 0.92rem;
+}
+
+.fc-notas-hint {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  font-style: italic;
+  margin-bottom: 0.8rem;
+  padding-left: 0.2rem;
+}
+
 /* sync status na zona do mestre */
 .page-mestre .ficha-sync-status {
   font-family: var(--font-crt);

@@ -161,6 +161,10 @@
     document.getElementById('fc-condicoes').value = fichaData.condicoes || '';
     bindAutoSave('fc-condicoes', 'condicoes');
 
+    // Tab NOTAS
+    document.getElementById('fc-notas').value = fichaData.notas || '';
+    bindAutoSave('fc-notas', 'notas');
+
     renderRelacoes();
     renderPerguntas();
 

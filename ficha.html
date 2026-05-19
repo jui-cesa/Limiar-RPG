@@ -67,6 +67,7 @@
     <button class="ficha-tab tab-active" data-tab="personagem" role="tab">PERSONAGEM</button>
     <button class="ficha-tab" data-tab="status" role="tab">STATUS</button>
     <button class="ficha-tab" data-tab="inventario" role="tab">INVENT&Aacute;RIO</button>
+    <button class="ficha-tab" data-tab="notas" role="tab">NOTAS</button>
   </nav>
 
   <!-- CONTEÚDO DAS TABS -->
@@ -153,6 +154,15 @@
         <h4 class="fc-label">// ITENS NO INVENT&Aacute;RIO</h4>
         <div class="inv-lista" id="inv-itens"></div>
         <button type="button" class="inv-adicionar" data-tipo="itens">+ ADICIONAR ITEM</button>
+      </div>
+    </section>
+
+    <!-- TAB: NOTAS -->
+    <section class="ficha-tab-content" data-tab="notas">
+      <div class="fc-bloco">
+        <h4 class="fc-label">// SUAS ANOTA&Ccedil;&Otilde;ES</h4>
+        <p class="fc-notas-hint">Use este espa&ccedil;o pra anotar o que quiser: pensamentos, suspeitas, NPCs, lembretes pra pr&oacute;xima sess&atilde;o...</p>
+        <textarea class="fc-textarea fc-notas-textarea" id="fc-notas" placeholder="Escreva suas anota&ccedil;&otilde;es..."></textarea>
       </div>
     </section>
 

@@ -187,7 +187,7 @@
     var campos = ['stress', 'sinal', 'chaves', 'condicoes',
                   'relacao_1', 'relacao_2', 'relacao_3', 'relacao_4',
                   'pergunta_1', 'pergunta_2', 'pergunta_3',
-                  'pistas', 'itens', 'notas_mestre'];
+                  'pistas', 'itens', 'notas', 'notas_mestre'];
     for (var i = 0; i < campos.length; i++) {
       var c = campos[i];
       var a = antigo[c];
@@ -454,6 +454,7 @@
       relacao_3: 'Rela&ccedil;&atilde;o 3', relacao_4: 'Rela&ccedil;&atilde;o 4',
       pergunta_1: 'Pergunta 1', pergunta_2: 'Pergunta 2', pergunta_3: 'Pergunta 3',
       pistas: 'Pistas', itens: 'Itens',
+      notas: 'Notas do Jogador',
       notas_mestre: 'Notas do Mestre'
     };
     return map[c] || c;
@@ -593,6 +594,12 @@
             renderInvLista(d.itens, 'itens', arq) +
             '</div>' +
             '<button type="button" class="inv-adicionar mp-add" data-tipo="itens" data-arq="' + arq + '">+ ADICIONAR ITEM</button></div>';
+
+    // Notas do jogador (livres, vindas da ficha)
+    html += '<div class="mp-bloco mp-notas-jogador">' +
+              '<h4 class="fc-label">&#128221; NOTAS DO JOGADOR</h4>' +
+              '<textarea class="fc-textarea mp-edit mp-notas-jogador-ta" data-field="notas" data-arq="' + arq + '" placeholder="O que o jogador anotou...">' + escapeHtml(d.notas || '') + '</textarea>' +
+            '</div>';
 
     // Notas do mestre
     html += '<div class="mp-bloco mp-notas-mestre">' +
