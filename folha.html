@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Folha de Morro Alto">
+  <title>Netscape: Folha de Morro Alto</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-folha">
+
+  <!-- NAVEGADOR NETSCAPE RETRÔ EM TELA CHEIA -->
+  <main class="netscape-window">
+    <div class="netscape-titlebar">
+      <span class="netscape-title-icon">&#9646;</span>
+      <span class="netscape-title-text" id="netscape-title">Netscape: Folha de Morro Alto</span>
+      <span class="netscape-title-controls">
+        <span class="netscape-ctrl">_</span>
+        <span class="netscape-ctrl">&#9744;</span>
+        <span class="netscape-ctrl">&times;</span>
+      </span>
+    </div>
+    <div class="netscape-menubar">
+      <span>File</span><span>Edit</span><span>View</span><span>Go</span><span>Bookmarks</span><span>Options</span><span>Directory</span><span>Help</span>
+    </div>
+    <div class="netscape-toolbar">
+      <button class="netscape-btn" id="netscape-back" title="Back">&#9664; Back</button>
+      <button class="netscape-btn netscape-btn-disabled" title="Forward">Forward &#9654;</button>
+      <button class="netscape-btn" id="netscape-reload" title="Reload">Reload</button>
+      <button class="netscape-btn netscape-btn-disabled" title="Stop">Stop</button>
+      <span class="netscape-toolbar-sep"></span>
+      <button class="netscape-btn" id="netscape-home" title="Home">Home</button>
+      <button class="netscape-btn netscape-btn-disabled" title="Search">Search</button>
+      <button class="netscape-btn netscape-btn-disabled" title="Print">Print</button>
+    </div>
+    <div class="netscape-urlbar">
+      <span class="netscape-urlbar-label">Location:</span>
+      <span class="netscape-urlbar-input" id="netscape-url">http://www.folhademorroalto.com.br/</span>
+    </div>
+
+    <!-- CONTEÚDO DA PÁGINA -->
+    <div class="netscape-viewport">
+      <div class="folha-pagina" id="folha-pagina">
+        <p class="folha-loading">Carregando...</p>
+      </div>
+    </div>
+
+    <div class="netscape-statusbar">
+      <span id="netscape-status">Document: Done.</span>
+      <span class="netscape-statusbar-spacer"></span>
+      <span class="netscape-statusbar-zone">&#128274; Internet zone</span>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/folha.js"></script>
+</body>
+</html>

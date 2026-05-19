@@ -87,6 +87,9 @@
     subscribeMestreConfig();
     bindNotasParty();
     bindSair();
+    loadMaterias();
+    subscribeMaterias();
+    bindMateriaNova();
   }
 
   function sair() {
@@ -835,6 +838,190 @@
         }
       }, 1500);
     }
+  }
+
+  // ========================================
+  // MATÉRIAS DA FOLHA (CRUD)
+  // ========================================
+  var materiasFolha = [];
+
+  function loadMaterias() {
+    if (!db) return;
+    db.from('materias_folha')
+      .select('*')
+      .order('destaque', { ascending: false })
+      .order('ordem', { ascending: true })
+      .order('created_at', { ascending: false })
+      .then(function (result) {
+        if (result.error) {
+          console.error('Erro materias:', result.error);
+          document.getElementById('materias-lista').innerHTML = '<p class="materias-vazio">Erro ao carregar. Verifique se a tabela materias_folha existe.</p>';
+          return;
+        }
+        materiasFolha = result.data || [];
+        renderMaterias();
+      });
+  }
+
+  function subscribeMaterias() {
+    if (!db) return;
+    db.channel('mestre-materias-rt')
+      .on('postgres_changes',
+        { event: '*', schema: 'public', table: 'materias_folha' },
+        function () { loadMaterias(); }
+      )
+      .subscribe();
+  }
+
+  function renderMaterias() {
+    var container = document.getElementById('materias-lista');
+    if (!container) return;
+    if (materiasFolha.length === 0) {
+      container.innerHTML = '<p class="materias-vazio">Nenhuma mat&eacute;ria. Clique em "+ NOVA MAT&Eacute;RIA" para criar a primeira.</p>';
+      return;
+    }
+    container.innerHTML = '';
+    materiasFolha.forEach(function (m) {
+      var det = document.createElement('details');
+      det.className = 'materia-card';
+      det.id = 'mat-' + m.id;
+      det.innerHTML = renderMateriaHtml(m);
+      container.appendChild(det);
+      bindMateriaCard(m.id, det);
+    });
+  }
+
+  function renderMateriaHtml(m) {
+    var statusLabel = (m.publicada ? 'PUBLICADA' : 'RASCUNHO') + (m.destaque ? ' &middot; DESTAQUE' : '');
+    return '' +
+      '<summary class="materia-card-header">' +
+        '<span class="materia-card-titulo">' + escapeHtml(m.titulo || '(sem t&iacute;tulo)') + '</span>' +
+        '<span class="materia-card-meta">' + escapeHtml(m.slug) + ' &middot; ' + escapeHtml(m.data_publicacao || '') + '</span>' +
+        '<span class="materia-card-status' + (m.publicada ? ' publicada' : '') + '">' + statusLabel + '</span>' +
+        '<span class="materia-arrow">&#9662;</span>' +
+      '</summary>' +
+      '<div class="materia-card-body">' +
+        '<div class="materia-grid">' +
+          field('T&iacute;tulo', 'titulo', m.titulo, 'text') +
+          field('Slug (URL)', 'slug', m.slug, 'text') +
+          field('Subt&iacute;tulo', 'subtitulo', m.subtitulo, 'text') +
+          field('Categoria', 'categoria', m.categoria, 'text') +
+          field('Data de Publica&ccedil;&atilde;o', 'data_publicacao', m.data_publicacao, 'text') +
+          field('Autor', 'autor', m.autor, 'text') +
+          field('Ordem', 'ordem', m.ordem, 'number') +
+        '</div>' +
+        fieldArea('Chamada (resumo)', 'chamada', m.chamada) +
+        fieldArea('Corpo (HTML aceito: &lt;h3&gt;, &lt;p&gt;, &lt;strong&gt;, &lt;em&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;div class="folha-selo"&gt;)', 'corpo', m.corpo, 14) +
+        '<div class="materia-flags">' +
+          '<label><input type="checkbox" class="materia-flag" data-field="destaque"' + (m.destaque ? ' checked' : '') + '> Destaque (manchete principal)</label>' +
+          '<label><input type="checkbox" class="materia-flag" data-field="publicada"' + (m.publicada ? ' checked' : '') + '> Publicada</label>' +
+        '</div>' +
+        '<div class="materia-acoes">' +
+          '<a class="materia-preview" href="folha?materia=' + encodeURIComponent(m.slug) + '" target="_blank">VER NA FOLHA &#9656;</a>' +
+          '<button type="button" class="materia-excluir" data-id="' + m.id + '">EXCLUIR</button>' +
+        '</div>' +
+      '</div>';
+
+    function field(label, name, val, type) {
+      var v = (val == null ? '' : val);
+      return '<label class="materia-label"><span>' + label + '</span>' +
+             '<input type="' + (type || 'text') + '" class="materia-input" data-field="' + name + '" value="' + escapeAttr(v) + '"></label>';
+    }
+    function fieldArea(label, name, val, rows) {
+      var v = (val == null ? '' : val);
+      return '<label class="materia-label materia-label-full"><span>' + label + '</span>' +
+             '<textarea class="materia-textarea" data-field="' + name + '" rows="' + (rows || 4) + '">' + escapeHtml(v) + '</textarea></label>';
+    }
+  }
+
+  function bindMateriaCard(id, root) {
+    root.querySelectorAll('.materia-input, .materia-textarea').forEach(function (el) {
+      el.addEventListener('input', function () {
+        var field = el.getAttribute('data-field');
+        var value = el.value;
+        if (field === 'ordem') value = parseInt(value, 10) || 0;
+        debouncedSaveMateria(id, field, value);
+      });
+    });
+    root.querySelectorAll('.materia-flag').forEach(function (el) {
+      el.addEventListener('change', function () {
+        saveMateria(id, el.getAttribute('data-field'), el.checked);
+      });
+    });
+    var btnDel = root.querySelector('.materia-excluir');
+    if (btnDel) btnDel.addEventListener('click', function () {
+      if (confirm('Excluir esta mat&eacute;ria permanentemente?')) {
+        excluirMateria(id);
+      }
+    });
+  }
+
+  function saveMateria(id, field, value) {
+    if (!db) return;
+    showSync(true);
+    var update = {};
+    update[field] = value;
+    db.from('materias_folha').update(update).eq('id', id).then(function (result) {
+      if (result.error) {
+        console.error('Erro save materia:', result.error);
+        showSync(false, 'ERRO');
+        return;
+      }
+      var local = materiasFolha.find(function (m) { return m.id === id; });
+      if (local) local[field] = value;
+      showSync(false, 'SALVO');
+    });
+  }
+
+  function debouncedSaveMateria(id, field, value) {
+    var key = 'mat:' + id + ':' + field;
+    if (saveTimers[key]) clearTimeout(saveTimers[key]);
+    saveTimers[key] = setTimeout(function () {
+      saveMateria(id, field, value);
+    }, 800);
+  }
+
+  function excluirMateria(id) {
+    if (!db) return;
+    showSync(true);
+    db.from('materias_folha').delete().eq('id', id).then(function (result) {
+      if (result.error) {
+        console.error('Erro delete:', result.error);
+        showSync(false, 'ERRO');
+        return;
+      }
+      showSync(false, 'EXCLU&Iacute;DO');
+    });
+  }
+
+  function bindMateriaNova() {
+    var btn = document.getElementById('materia-nova');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var slug = prompt('Slug da nova mat&eacute;ria (URL-friendly, ex: novo-incidente):');
+      if (!slug) return;
+      slug = slug.trim().toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '');
+      if (!slug) {
+        alert('Slug inv&aacute;lido.');
+        return;
+      }
+      showSync(true);
+      db.from('materias_folha').insert({
+        slug: slug,
+        titulo: 'Nova mat&eacute;ria',
+        categoria: 'CIDADE',
+        publicada: false,
+        ordem: (materiasFolha.length || 0) + 1
+      }).then(function (result) {
+        if (result.error) {
+          console.error('Erro insert:', result.error);
+          showSync(false, 'ERRO');
+          alert('Erro ao criar mat&eacute;ria: ' + (result.error.message || 'verifique se o slug j&aacute; existe.'));
+          return;
+        }
+        showSync(false, 'CRIADA');
+      });
+    });
   }
 
   // ========================================

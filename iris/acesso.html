@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Instituto Íris :: Acesso Restrito</title>
+  <link rel="stylesheet" href="css/iris.css">
+</head>
+<body>
+  <div class="iris-container">
+
+    <header class="iris-cabecalho">
+      <img src="../assets/images/Logos/Instituto_íris_logo.png" alt="Instituto Íris" class="iris-logo">
+      <h1 class="iris-nome">INSTITUTO &Iacute;RIS</h1>
+      <p class="iris-slogan">&laquo;Cuidando do que voc&ecirc; v&ecirc;.&raquo;</p>
+    </header>
+
+    <nav class="iris-nav">
+      <a href="index.html">In&iacute;cio</a><span class="sep"> | </span>
+      <a href="servicos.html">Servi&ccedil;os</a><span class="sep"> | </span>
+      <a href="acesso.html">Acesso Restrito</a><span class="sep"> | </span>
+      <a href="contato.html">Contato</a>
+    </nav>
+
+    <hr class="iris-sep">
+
+    <main class="iris-main">
+
+      <section class="iris-bloco">
+        <h2>&Aacute;REA RESTRITA</h2>
+        <p>Esta se&ccedil;&atilde;o &eacute; destinada exclusivamente a colaboradores credenciados e parceiros institucionais. O acesso requer autoriza&ccedil;&atilde;o pr&eacute;via fornecida pela Coordena&ccedil;&atilde;o T&eacute;cnica.</p>
+        <p>Tentativas de acesso n&atilde;o autorizadas s&atilde;o automaticamente registradas pela <strong>Coordena&ccedil;&atilde;o de Seguran&ccedil;a Interna</strong> e tratadas conforme o protocolo &Iacute;ris-3.</p>
+      </section>
+
+      <form class="iris-form" id="iris-login-form" autocomplete="off">
+        <h3 class="iris-form-titulo">AUTENTICA&Ccedil;&Atilde;O</h3>
+        <p class="iris-form-sub">Somente pessoal autorizado.</p>
+
+        <label class="iris-form-label" for="iris-usuario">Usu&aacute;rio:</label>
+        <input class="iris-form-readonly" id="iris-usuario" type="text" value="admin" readonly>
+
+        <label class="iris-form-label" for="iris-senha">Senha:</label>
+        <input class="iris-form-input" id="iris-senha" type="password" autocomplete="off" spellcheck="false">
+
+        <button class="iris-form-btn" type="submit">AUTENTICAR</button>
+
+        <div class="iris-erro" id="iris-erro">
+          <p>Tentativa de acesso n&atilde;o autorizada.</p>
+          <p>Endere&ccedil;o de m&aacute;quina registrado no log de seguran&ccedil;a interna.</p>
+          <p>Tentativa <span id="iris-tentativas">0</span> de 3.</p>
+        </div>
+
+        <div class="iris-erro ativo" id="iris-bloqueio" style="display: none; margin-top: 1rem;">
+          <p>LIMITE DE TENTATIVAS EXCEDIDO.</p>
+          <p>Sess&atilde;o suspensa. Tente novamente em algumas horas.</p>
+        </div>
+      </form>
+
+      <section class="iris-bloco">
+        <p style="font-size: 0.82rem; color: #666; text-align: center;">
+          <em>Em caso de esquecimento da senha, contate seu supervisor imediato.<br>
+          N&atilde;o compartilhe credenciais. Cada acesso &eacute; rastre&aacute;vel por endere&ccedil;o de m&aacute;quina.</em>
+        </p>
+      </section>
+
+    </main>
+
+    <hr class="iris-sep">
+
+    <footer class="iris-rodape">
+      <p class="endereco">Av. do Contorno, S/N &middot; Pr&eacute;dio Administrativo &Iacute;ris &middot; Morro Alto - RJ</p>
+      <p>Tel.: (24) 99-2274 &middot; Fax: (24) 99-2275</p>
+      <p>Voc&ecirc; &eacute; o visitante n&ordm; <span class="iris-contador">000404</span></p>
+      <p>&Uacute;ltima atualiza&ccedil;&atilde;o: 02/Set/1999</p>
+      <p>&copy; 1999 Instituto &Iacute;ris. Todos os direitos reservados.</p>
+      <p class="iris-aviso">A visualiza&ccedil;&atilde;o n&atilde;o autorizada deste dom&iacute;nio pode causar interfer&ecirc;ncia persistente.</p>
+    </footer>
+
+  </div>
+
+  <script src="js/iris.js"></script>
+</body>
+</html>

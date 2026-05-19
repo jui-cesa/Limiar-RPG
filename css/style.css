@@ -4118,6 +4118,915 @@ body.player-locked .arquetipo-card.my-selection .btn-selecionar.selected {
 }
 
 /* ========================================
+   CRUD DE MATÉRIAS NA ZONA DO MESTRE
+   ======================================== */
+.materias-vazio {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  font-style: italic;
+  text-align: center;
+  padding: 1.5rem;
+  border: 1px dashed #1a1a1a;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.materia-nova {
+  background: transparent;
+  border: 1px dashed var(--crt-amber);
+  color: var(--crt-amber);
+  font-family: var(--font-crt);
+  font-size: 0.85rem;
+  letter-spacing: 0.25em;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.materia-nova:hover {
+  border-style: solid;
+  background: rgba(255, 170, 0, 0.08);
+  text-shadow: 0 0 8px rgba(255, 170, 0, 0.4);
+}
+
+.materias-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.materia-card {
+  background: rgba(5, 5, 5, 0.6);
+  border: 1px solid #1a1a1a;
+  transition: border-color 0.3s ease;
+}
+
+.materia-card[open] {
+  border-color: var(--crt-amber);
+  box-shadow: 0 0 15px rgba(255, 170, 0, 0.05);
+}
+
+.materia-card-header {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.8rem 1.2rem;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  font-family: var(--font-mono);
+}
+
+.materia-card-header::-webkit-details-marker {
+  display: none;
+}
+
+.materia-card-header:hover {
+  background: rgba(255, 170, 0, 0.03);
+}
+
+.materia-card-titulo {
+  font-family: var(--font-crt);
+  font-size: 1rem;
+  color: var(--text-primary);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.materia-card-meta {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+.materia-card-status {
+  font-family: var(--font-crt);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--text-dim);
+  color: var(--text-dim);
+}
+
+.materia-card-status.publicada {
+  border-color: var(--crt-green);
+  color: var(--crt-green);
+}
+
+.materia-arrow {
+  color: var(--text-dim);
+  transition: transform 0.3s ease;
+}
+
+.materia-card[open] .materia-arrow {
+  transform: rotate(180deg);
+  color: var(--crt-amber);
+}
+
+.materia-card-body {
+  padding: 1.2rem;
+  border-top: 1px solid #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.materia-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+}
+
+.materia-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-family: var(--font-mono);
+}
+
+.materia-label-full {
+  grid-column: 1 / -1;
+}
+
+.materia-label > span {
+  font-family: var(--font-crt);
+  font-size: 0.7rem;
+  color: var(--crt-amber);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.materia-input,
+.materia-textarea {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid #1a1a1a;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  padding: 0.5rem 0.7rem;
+  outline: none;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.materia-textarea {
+  resize: vertical;
+  min-height: 60px;
+  line-height: 1.6;
+}
+
+.materia-input:focus,
+.materia-textarea:focus {
+  border-color: var(--crt-amber);
+  background: rgba(255, 170, 0, 0.03);
+}
+
+.materia-flags {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  padding-top: 0.4rem;
+}
+
+.materia-flags label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.materia-flags input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.materia-acoes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid #1a1a1a;
+}
+
+.materia-preview {
+  font-family: var(--font-crt);
+  font-size: 0.85rem;
+  color: var(--crt-green);
+  text-decoration: none;
+  letter-spacing: 0.2em;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--crt-green-dim);
+  background: rgba(51, 255, 51, 0.04);
+  transition: all 0.3s ease;
+}
+
+.materia-preview:hover {
+  background: rgba(51, 255, 51, 0.1);
+  border-color: var(--crt-green);
+  text-shadow: 0 0 8px rgba(51, 255, 51, 0.3);
+}
+
+.materia-excluir {
+  background: transparent;
+  border: 1px solid #2a2a2a;
+  color: var(--text-dim);
+  font-family: var(--font-crt);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.materia-excluir:hover {
+  color: var(--blood-red);
+  border-color: var(--blood-red);
+  background: rgba(139, 0, 0, 0.1);
+}
+
+/* ========================================
+   FOLHA DE MORRO ALTO (folha.html) — FULLSCREEN
+   ======================================== */
+.page-folha {
+  padding: 0;
+  margin: 0;
+  background: #008080; /* clássico Windows 95 desktop teal */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Esconde efeitos do tema CRT (scanlines + vignette) na página da folha */
+body.page-folha::before,
+body.page-folha::after {
+  display: none !important;
+}
+
+/* --- Janela do Netscape em tela cheia --- */
+.netscape-window {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  background: #c0c0c0;
+  border: none;
+  box-shadow: none;
+  font-family: 'Tahoma', 'Geneva', 'Verdana', sans-serif;
+  font-size: 12px;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+}
+
+.netscape-titlebar {
+  background: linear-gradient(90deg, #000080, #1084d0);
+  color: #fff;
+  padding: 3px 4px;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.netscape-title-icon {
+  background: #c0c0c0;
+  color: #000080;
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border: 1px solid #fff;
+}
+
+.netscape-title-text {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.netscape-title-controls {
+  display: flex;
+  gap: 2px;
+}
+
+.netscape-ctrl {
+  display: inline-flex;
+  width: 18px;
+  height: 16px;
+  background: #c0c0c0;
+  color: #000;
+  border: 1px solid;
+  border-color: #ffffff #404040 #404040 #ffffff;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  line-height: 1;
+}
+
+.netscape-menubar {
+  background: #c0c0c0;
+  padding: 3px 6px;
+  display: flex;
+  gap: 12px;
+  border-bottom: 1px solid #808080;
+  font-size: 11px;
+}
+
+.netscape-menubar span {
+  cursor: default;
+  user-select: none;
+}
+
+.netscape-menubar span:hover {
+  background: #000080;
+  color: #fff;
+  padding: 0 4px;
+}
+
+.netscape-toolbar {
+  background: #c0c0c0;
+  padding: 4px 6px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  border-bottom: 1px solid #808080;
+  flex-wrap: wrap;
+}
+
+.netscape-btn {
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #404040 #404040 #ffffff;
+  color: #000;
+  font-family: inherit;
+  font-size: 11px;
+  padding: 3px 8px;
+  cursor: pointer;
+  min-width: 56px;
+}
+
+.netscape-btn:active:not(.netscape-btn-disabled) {
+  border-color: #404040 #ffffff #ffffff #404040;
+}
+
+.netscape-btn-disabled {
+  color: #808080;
+  cursor: not-allowed;
+}
+
+.netscape-toolbar-sep {
+  width: 1px;
+  height: 22px;
+  background: #808080;
+  margin: 0 4px;
+  border-right: 1px solid #fff;
+}
+
+.netscape-urlbar {
+  background: #c0c0c0;
+  padding: 4px 6px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  border-bottom: 1px solid #808080;
+}
+
+.netscape-urlbar-label {
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.netscape-urlbar-input {
+  flex: 1;
+  background: #fff;
+  border: 2px solid;
+  border-color: #404040 #ffffff #ffffff #404040;
+  padding: 3px 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: #000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.netscape-viewport {
+  background: var(--folha-bege, #f4ecd8);
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  border: 2px solid;
+  border-color: #404040 #ffffff #ffffff #404040;
+}
+
+.netscape-statusbar {
+  background: #c0c0c0;
+  padding: 3px 8px;
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #808080;
+  font-size: 11px;
+}
+
+.netscape-statusbar-spacer {
+  flex: 1;
+}
+
+.netscape-statusbar-zone {
+  border: 1px solid;
+  border-color: #404040 #ffffff #ffffff #404040;
+  padding: 1px 6px;
+  background: #c0c0c0;
+}
+
+/* --- Página da Folha (dentro do viewport) --- */
+:root {
+  --folha-bege: #f4ecd8;
+  --folha-text: #1a1a1a;
+  --folha-link: #0000ee;
+  --folha-visited: #551a8b;
+}
+
+.folha-pagina {
+  background: var(--folha-bege);
+  color: var(--folha-text);
+  font-family: 'Times New Roman', 'Times', serif;
+  font-size: 15px;
+  line-height: 1.55;
+  padding: 1.5rem 2rem 2rem;
+}
+
+.folha-pagina a {
+  color: var(--folha-link);
+  text-decoration: underline;
+}
+
+.folha-pagina a:visited {
+  color: var(--folha-visited);
+}
+
+.folha-pagina a:hover {
+  color: #d70000;
+}
+
+.folha-loading,
+.folha-vazio {
+  text-align: center;
+  font-style: italic;
+  padding: 3rem 1rem;
+  color: #555;
+}
+
+.folha-erro {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.folha-erro h2 {
+  color: #b00;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+/* Cabeçalho do jornal */
+.folha-cabecalho {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.folha-titulo-bloco {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.folha-logo {
+  font-family: 'Times New Roman', serif;
+  font-size: 3.6rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #000;
+  line-height: 1;
+  margin: 0;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.folha-logo-sub {
+  display: flex;
+  flex-direction: column;
+}
+
+.folha-logo-cidade {
+  font-family: 'Times New Roman', serif;
+  font-size: 0.95rem;
+  font-weight: bold;
+  letter-spacing: 0.25em;
+  color: #1a1a1a;
+}
+
+.folha-logo-slogan {
+  font-size: 0.78rem;
+  font-style: italic;
+  color: #5a5a5a;
+  margin-top: 0.2rem;
+}
+
+.folha-edicao-info {
+  text-align: right;
+  font-size: 0.72rem;
+  color: #555;
+  letter-spacing: 0.05em;
+}
+
+.folha-edicao-data {
+  font-weight: bold;
+  color: #000;
+}
+
+.folha-hr {
+  border: none;
+  border-top: 1px solid #555;
+  margin: 0.8rem 0;
+}
+
+.folha-hr-grossa {
+  border-top: 3px double #555;
+  margin: 1rem 0;
+}
+
+/* Marquee */
+.folha-marquee-wrap {
+  background: #d4cab5;
+  border: 1px solid #888;
+  padding: 4px 0;
+  font-size: 0.9rem;
+  color: #2a2a2a;
+  font-style: italic;
+  margin-bottom: 1.2rem;
+}
+
+.folha-marquee-wrap marquee {
+  font-family: 'Times New Roman', serif;
+}
+
+/* Categoria */
+.folha-categoria {
+  display: inline-block;
+  background: #1a1a1a;
+  color: #fff;
+  padding: 2px 8px;
+  font-family: 'Arial', 'Helvetica', sans-serif;
+  font-size: 0.7rem;
+  font-weight: bold;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.5rem;
+}
+
+.folha-categoria-mini {
+  font-family: 'Arial', sans-serif;
+  font-size: 0.7rem;
+  color: #888;
+  letter-spacing: 0.1em;
+}
+
+/* Manchete principal */
+.folha-manchete-link {
+  display: block;
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+.folha-manchete-principal {
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid #c4b896;
+  padding: 1.5rem 1.6rem;
+  margin-bottom: 1.2rem;
+  transition: background 0.2s ease;
+}
+
+.folha-manchete-link:hover .folha-manchete-principal {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: #888;
+}
+
+.folha-manchete-titulo {
+  font-size: 2rem;
+  line-height: 1.15;
+  font-weight: 900;
+  color: #000;
+  margin: 0.3rem 0;
+}
+
+.folha-manchete-subtitulo {
+  font-size: 1.05rem;
+  font-style: italic;
+  font-weight: normal;
+  color: #444;
+  margin-bottom: 0.6rem;
+}
+
+.folha-manchete-data {
+  font-size: 0.78rem;
+  color: #666;
+  margin-bottom: 0.8rem;
+  font-family: 'Arial', sans-serif;
+}
+
+.folha-manchete-chamada {
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: #2a2a2a;
+  text-align: justify;
+}
+
+.folha-leia-mais {
+  display: inline-block;
+  margin-top: 0.8rem;
+  color: var(--folha-link);
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+/* Outras matérias */
+.folha-secao-titulo {
+  font-family: 'Arial', sans-serif;
+  font-size: 0.85rem;
+  font-weight: bold;
+  letter-spacing: 0.2em;
+  color: #1a1a1a;
+  border-bottom: 1px solid #888;
+  padding-bottom: 0.3rem;
+  margin: 1.2rem 0 0.8rem;
+}
+
+.folha-materia-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.folha-materia-item {
+  padding: 0.7rem 0;
+  border-bottom: 1px dotted #888;
+}
+
+.folha-materia-item:last-child {
+  border-bottom: none;
+}
+
+.folha-materia-item a {
+  font-size: 1.05rem;
+}
+
+.folha-materia-item p {
+  font-size: 0.92rem;
+  color: #444;
+  margin: 0.2rem 0;
+}
+
+.folha-materia-item small {
+  font-size: 0.75rem;
+  color: #777;
+}
+
+/* Página de matéria individual */
+.folha-volta-topo,
+.folha-volta-baixo {
+  margin: 0.5rem 0 1rem;
+}
+
+.folha-link-voltar {
+  font-family: 'Arial', sans-serif;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.folha-materia {
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid #c4b896;
+  padding: 1.8rem 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.folha-materia-header {
+  margin-bottom: 1rem;
+}
+
+.folha-materia-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  color: #555;
+  font-family: 'Arial', sans-serif;
+  margin-bottom: 0.6rem;
+}
+
+.folha-materia-data,
+.folha-materia-autor {
+  letter-spacing: 0.05em;
+}
+
+.folha-materia-titulo {
+  font-size: 2.2rem;
+  line-height: 1.15;
+  font-weight: 900;
+  color: #000;
+  margin: 0.3rem 0;
+}
+
+.folha-materia-subtitulo {
+  font-size: 1.15rem;
+  font-style: italic;
+  font-weight: normal;
+  color: #444;
+  margin-bottom: 0.8rem;
+}
+
+.folha-materia-chamada {
+  font-size: 1.08rem;
+  font-style: italic;
+  color: #2a2a2a;
+  line-height: 1.6;
+  border-left: 3px solid #888;
+  padding-left: 1rem;
+  margin: 1rem 0;
+}
+
+.folha-corpo {
+  font-size: 1rem;
+  line-height: 1.7;
+  text-align: justify;
+  color: var(--folha-text);
+}
+
+.folha-corpo h3 {
+  font-family: 'Times New Roman', serif;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #1a1a1a;
+  margin: 1.3rem 0 0.5rem;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.2rem;
+}
+
+.folha-corpo h4 {
+  font-family: 'Times New Roman', serif;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 1rem 0 0.4rem;
+}
+
+.folha-corpo p {
+  margin-bottom: 0.9rem;
+}
+
+.folha-corpo ul,
+.folha-corpo ol {
+  margin: 0.5rem 0 0.9rem 1.5rem;
+}
+
+.folha-corpo li {
+  margin-bottom: 0.3rem;
+}
+
+.folha-corpo strong {
+  color: #000;
+}
+
+.folha-corpo em {
+  color: #333;
+}
+
+.folha-corpo blockquote {
+  border-left: 3px solid #888;
+  padding-left: 1rem;
+  font-style: italic;
+  color: #555;
+  margin: 1rem 0;
+}
+
+/* Lead da matéria (primeiro parágrafo destacado) */
+.folha-corpo .folha-lead {
+  font-size: 1.1rem;
+  line-height: 1.65;
+  color: #1a1a1a;
+  margin-bottom: 1.2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #b0a884;
+  font-weight: bold;
+}
+
+.folha-corpo .folha-lead em {
+  font-weight: normal;
+}
+
+/* Assinatura/colaboração ao fim da matéria */
+.folha-corpo .folha-assinatura {
+  font-size: 0.85rem;
+  color: #666;
+  text-align: right;
+  font-style: italic;
+  margin-top: 1.5rem;
+  padding-top: 0.8rem;
+  border-top: 1px dotted #888;
+}
+
+/* Selo (Instituto Íris no rodapé das matérias) */
+.folha-selo {
+  margin-top: 1.5rem;
+  padding: 1rem 1.2rem;
+  background: #f0e8d0;
+  border: 2px dashed #b48a00;
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+}
+
+.folha-selo p {
+  font-size: 0.9rem;
+  color: #5a4a00;
+  margin: 0;
+}
+
+.folha-selo strong {
+  color: #8a6800;
+  letter-spacing: 0.05em;
+}
+
+/* Rodapé do jornal */
+.folha-rodape {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  font-family: 'Arial', sans-serif;
+  font-size: 0.78rem;
+  color: #555;
+}
+
+.folha-rodape p {
+  margin: 0.2rem 0;
+}
+
+.folha-rodape-center {
+  text-align: center;
+}
+
+.folha-contador {
+  font-family: 'Courier New', monospace;
+  background: #000;
+  color: #00ff00;
+  font-weight: bold;
+  font-size: 1.4rem;
+  padding: 0.3rem 0.6rem;
+  display: inline-block;
+  letter-spacing: 0.2em;
+  border: 2px inset #444;
+  margin: 0.3rem 0;
+}
+
+.folha-best-viewed {
+  font-size: 0.72rem;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #888;
+  padding: 0.4rem;
+}
+
+.folha-webring {
+  font-size: 0.7rem;
+  text-align: center;
+  margin-top: 0.5rem;
+  color: #888;
+}
+
+.folha-copyright {
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  font-size: 0.7rem;
+  color: #777;
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #aaa;
+}
+
+/* ========================================
    RESPONSIVE
    ======================================== */
 @media (max-width: 768px) {
@@ -4201,6 +5110,85 @@ body.player-locked .arquetipo-card.my-selection .btn-selecionar.selected {
 
   .versao-card.indisponivel::after {
     font-size: 0.9rem;
+  }
+
+  /* CRUD matérias mobile */
+  .materia-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .materia-card-header {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 0.4rem;
+  }
+
+  .materia-card-meta,
+  .materia-card-status {
+    grid-column: span 2;
+  }
+
+  .materia-acoes {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  /* Folha mobile (continua fullscreen) */
+  .netscape-window {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .netscape-menubar {
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 10px;
+  }
+
+  .netscape-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .netscape-btn {
+    min-width: 0;
+    font-size: 10px;
+    padding: 2px 5px;
+  }
+
+
+  .folha-pagina {
+    padding: 1rem 1rem 1.5rem;
+    font-size: 14px;
+  }
+
+  .folha-cabecalho {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .folha-edicao-info {
+    text-align: left;
+  }
+
+  .folha-logo {
+    font-size: 2.4rem;
+  }
+
+  .folha-materia {
+    padding: 1.2rem;
+  }
+
+  .folha-materia-titulo {
+    font-size: 1.6rem;
+  }
+
+  .folha-manchete-titulo {
+    font-size: 1.4rem;
+  }
+
+  .folha-rodape {
+    grid-template-columns: 1fr;
   }
 
   /* Fichas mobile */
