@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="robots" content="noindex,nofollow">
+  <title>LIMIAR :: Quadro de Investigação</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-quadro">
+
+  <!-- MODAL DE NOME -->
+  <div id="quadro-nome-modal" class="quadro-nome-modal">
+    <div class="quadro-nome-overlay"></div>
+    <div class="quadro-nome-content">
+      <h2 class="glitch" data-text="QUADRO DE INVESTIGAÇÃO">QUADRO DE INVESTIGA&Ccedil;&Atilde;O</h2>
+      <p>Informe seu nome para entrar no quadro colaborativo.</p>
+      <input type="text" id="quadro-nome-input" placeholder="SEU NOME" maxlength="20" autocomplete="off" spellcheck="false">
+      <button id="quadro-nome-btn">ENTRAR</button>
+      <p class="quadro-nome-erro" id="quadro-nome-erro"></p>
+    </div>
+  </div>
+
+  <!-- TOOLBAR FLUTUANTE -->
+  <div class="quadro-toolbar hidden" id="quadro-toolbar">
+    <div class="quadro-tb-grupo">
+      <button class="quadro-tb-btn" id="tb-stickyamarelo" data-cor="amarelo" title="Sticky amarelo">
+        <span class="quadro-tb-cor cor-amarelo"></span>+
+      </button>
+      <button class="quadro-tb-btn" id="tb-stickyrosa" data-cor="rosa" title="Sticky rosa">
+        <span class="quadro-tb-cor cor-rosa"></span>+
+      </button>
+      <button class="quadro-tb-btn" id="tb-stickyazul" data-cor="azul" title="Sticky azul">
+        <span class="quadro-tb-cor cor-azul"></span>+
+      </button>
+      <button class="quadro-tb-btn" id="tb-stickyverde" data-cor="verde" title="Sticky verde">
+        <span class="quadro-tb-cor cor-verde"></span>+
+      </button>
+      <button class="quadro-tb-btn" id="tb-stickybranco" data-cor="branco" title="Sticky branco">
+        <span class="quadro-tb-cor cor-branco"></span>+
+      </button>
+    </div>
+
+    <div class="quadro-tb-grupo">
+      <button class="quadro-tb-btn quadro-tb-btn-modo" id="tb-linha" title="Conectar dois cards (L)">
+        &#9698; LINHA
+      </button>
+    </div>
+
+    <div class="quadro-tb-grupo quadro-tb-info">
+      <span class="quadro-tb-zoom">
+        <button class="quadro-tb-btn-mini" id="tb-zoom-out">&minus;</button>
+        <span id="tb-zoom-val">100%</span>
+        <button class="quadro-tb-btn-mini" id="tb-zoom-in">+</button>
+        <button class="quadro-tb-btn-mini" id="tb-zoom-reset" title="Reset zoom">&#9711;</button>
+      </span>
+      <span class="quadro-tb-online">
+        <span id="tb-online-num">1</span>
+        <span class="quadro-tb-online-label">online</span>
+      </span>
+      <span class="quadro-tb-jogador">
+        <span id="tb-jogador-nome">,</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- HELP HINT -->
+  <div class="quadro-hint hidden" id="quadro-hint">
+    <p><strong>Atalhos:</strong></p>
+    <ul>
+      <li>Duplo-click no card pra editar</li>
+      <li>Arrastar o fundo move o quadro</li>
+      <li>Scroll do mouse faz zoom</li>
+      <li>Delete remove o card selecionado</li>
+      <li>L ativa o modo "conectar linha"</li>
+    </ul>
+    <button class="quadro-hint-close" id="quadro-hint-close">[fechar]</button>
+  </div>
+
+  <!-- CANVAS / QUADRO -->
+  <div class="quadro-canvas hidden" id="quadro-canvas">
+    <div class="quadro-mundo" id="quadro-mundo">
+      <svg class="quadro-linhas-svg" id="quadro-linhas-svg"></svg>
+      <div class="quadro-cards" id="quadro-cards"></div>
+    </div>
+    <div class="quadro-cursores" id="quadro-cursores"></div>
+  </div>
+
+  <!-- STATUS BAR -->
+  <div class="quadro-statusbar hidden" id="quadro-statusbar">
+    <span id="quadro-status">Pronto.</span>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/quadro.js"></script>
+</body>
+</html>

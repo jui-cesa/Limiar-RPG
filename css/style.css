@@ -5027,6 +5027,513 @@ body.page-folha::after {
 }
 
 /* ========================================
+   QUADRO DE INVESTIGAÇÃO (quadro.html)
+   ======================================== */
+body.page-quadro {
+  background: #1a1410;
+  overflow: hidden;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+body.page-quadro::before,
+body.page-quadro::after {
+  display: none !important;
+}
+
+.page-quadro .hidden {
+  display: none !important;
+}
+
+/* Modal de nome */
+.quadro-nome-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quadro-nome-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+}
+
+.quadro-nome-content {
+  position: relative;
+  max-width: 420px;
+  width: 90%;
+  padding: 2rem;
+  background: rgba(10, 10, 10, 0.97);
+  border: 1px solid var(--crt-green-dim);
+  text-align: center;
+  box-shadow: 0 0 40px rgba(51, 255, 51, 0.1);
+}
+
+.quadro-nome-content h2 {
+  font-family: var(--font-crt);
+  color: var(--crt-green);
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  letter-spacing: 0.2em;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px rgba(51, 255, 51, 0.3);
+}
+
+.quadro-nome-content p {
+  font-family: var(--font-mono);
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-bottom: 1.2rem;
+}
+
+#quadro-nome-input {
+  width: 100%;
+  padding: 0.7rem;
+  background: rgba(10, 10, 10, 0.9);
+  border: 1px solid #1a1a1a;
+  color: var(--crt-green);
+  font-family: var(--font-crt);
+  font-size: 1.1rem;
+  letter-spacing: 0.15em;
+  text-align: center;
+  text-transform: uppercase;
+  outline: none;
+  margin-bottom: 1rem;
+}
+
+#quadro-nome-input:focus {
+  border-color: var(--crt-green-dim);
+}
+
+#quadro-nome-btn {
+  padding: 0.6rem 1.8rem;
+  background: transparent;
+  border: 1px solid var(--crt-green-dim);
+  color: var(--crt-green);
+  font-family: var(--font-crt);
+  font-size: 0.95rem;
+  letter-spacing: 0.25em;
+  cursor: pointer;
+}
+
+#quadro-nome-btn:hover {
+  background: rgba(51, 255, 51, 0.08);
+}
+
+.quadro-nome-erro {
+  color: var(--blood-red) !important;
+  font-size: 0.8rem !important;
+  margin-top: 0.8rem;
+  min-height: 1.2em;
+}
+
+/* Toolbar */
+.quadro-toolbar {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  background: rgba(20, 15, 10, 0.95);
+  border: 1px solid #3a3025;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  font-family: var(--font-crt);
+  letter-spacing: 0.1em;
+  max-width: calc(100vw - 24px);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.quadro-tb-grupo {
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+  border-right: 1px solid #3a3025;
+  padding-right: 1rem;
+}
+
+.quadro-tb-grupo:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+
+.quadro-tb-info {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.quadro-tb-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 1px solid #3a3025;
+  color: var(--text-primary);
+  font-family: var(--font-crt);
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  padding: 0.35rem 0.6rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quadro-tb-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--crt-green-dim);
+}
+
+.quadro-tb-btn.ativo {
+  background: rgba(51, 255, 51, 0.15);
+  border-color: var(--crt-green);
+  color: var(--crt-green);
+  text-shadow: 0 0 8px rgba(51, 255, 51, 0.4);
+}
+
+.quadro-tb-cor {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 1px solid #000;
+}
+
+.cor-amarelo { background: #fff59d; }
+.cor-rosa    { background: #f8bbd0; }
+.cor-azul    { background: #bbdefb; }
+.cor-verde   { background: #c8e6c9; }
+.cor-branco  { background: #f5f5f5; }
+
+.quadro-tb-btn-mini {
+  background: transparent;
+  border: 1px solid #3a3025;
+  color: var(--text-primary);
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  font-family: var(--font-crt);
+  font-size: 0.9rem;
+}
+
+.quadro-tb-btn-mini:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.quadro-tb-zoom {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+#tb-zoom-val {
+  min-width: 42px;
+  text-align: center;
+  font-family: var(--font-crt);
+  color: var(--crt-amber);
+}
+
+.quadro-tb-online {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--crt-green);
+}
+
+.quadro-tb-online-label {
+  color: var(--text-dim);
+  font-size: 0.7rem;
+}
+
+.quadro-tb-jogador {
+  font-family: var(--font-crt);
+  letter-spacing: 0.15em;
+  font-size: 0.9rem;
+}
+
+/* Hint */
+.quadro-hint {
+  position: fixed;
+  bottom: 40px;
+  right: 12px;
+  z-index: 999;
+  background: rgba(20, 15, 10, 0.95);
+  border: 1px solid #3a3025;
+  border-radius: 6px;
+  padding: 0.8rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  max-width: 260px;
+}
+
+.quadro-hint p { margin: 0 0 0.4rem; }
+.quadro-hint ul { padding-left: 1.2rem; margin: 0.3rem 0 0.5rem; }
+.quadro-hint li { margin-bottom: 0.2rem; line-height: 1.4; }
+
+.quadro-hint-close {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-family: var(--font-crt);
+  font-size: 0.75rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.quadro-hint-close:hover {
+  color: var(--crt-green);
+}
+
+/* Status bar */
+.quadro-statusbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: rgba(20, 15, 10, 0.95);
+  border-top: 1px solid #3a3025;
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  letter-spacing: 0.05em;
+}
+
+/* Canvas e mundo */
+.quadro-canvas {
+  position: fixed;
+  inset: 0;
+  background: #1a1410;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(80, 50, 30, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(60, 40, 25, 0.15) 0%, transparent 50%),
+    repeating-radial-gradient(circle at 50% 50%, transparent 0, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 3px);
+  cursor: grab;
+  overflow: hidden;
+}
+
+.quadro-canvas:active {
+  cursor: grabbing;
+}
+
+body.quadro-modo-linha .quadro-canvas,
+body.quadro-modo-linha .quadro-card {
+  cursor: crosshair !important;
+}
+
+.quadro-mundo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  width: 0;
+  height: 0;
+}
+
+.quadro-linhas-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.quadro-cards {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Card (post-it) */
+.quadro-card {
+  position: absolute;
+  background: #fff59d;
+  color: #2a2a2a;
+  padding: 0.6rem 0.8rem 1.2rem;
+  font-family: 'Caveat', 'Patrick Hand', 'Courier New', cursive;
+  font-size: 1.05rem;
+  line-height: 1.4;
+  box-shadow:
+    2px 2px 6px rgba(0, 0, 0, 0.5),
+    8px 12px 25px rgba(0, 0, 0, 0.3);
+  cursor: grab;
+  user-select: none;
+  transform-origin: center center;
+  transition: box-shadow 0.2s ease, outline 0.2s ease;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.quadro-card:active {
+  cursor: grabbing;
+}
+
+.quadro-card.selecionado {
+  outline-color: var(--crt-green);
+  box-shadow:
+    2px 2px 6px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(51, 255, 51, 0.4);
+}
+
+.quadro-card.linha-origem {
+  outline-color: #c33;
+  box-shadow: 0 0 20px rgba(204, 51, 51, 0.6);
+}
+
+.quadro-card.editando {
+  transform: rotate(0deg) !important;
+  cursor: default;
+  outline-color: var(--crt-amber);
+  box-shadow:
+    2px 2px 6px rgba(0, 0, 0, 0.5),
+    0 0 25px rgba(255, 170, 0, 0.5);
+}
+
+.quadro-card-amarelo { background: #fff59d; }
+.quadro-card-rosa    { background: #f8bbd0; }
+.quadro-card-azul    { background: #bbdefb; }
+.quadro-card-verde   { background: #c8e6c9; }
+.quadro-card-branco  { background: #f5f5f5; }
+
+.quadro-card-titulo {
+  font-weight: bold;
+  font-size: 1.15rem;
+  margin-bottom: 0.3rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  word-wrap: break-word;
+}
+
+.quadro-card-conteudo {
+  font-size: 1rem;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.quadro-card-titulo .placeholder,
+.quadro-card-conteudo .placeholder {
+  color: rgba(0, 0, 0, 0.35);
+  font-style: italic;
+}
+
+.quadro-card-autor {
+  position: absolute;
+  bottom: 2px;
+  right: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: rgba(0, 0, 0, 0.4);
+  letter-spacing: 0.1em;
+}
+
+.quadro-card-imagem {
+  width: 100%;
+  max-height: 180px;
+  object-fit: cover;
+  display: block;
+  margin-bottom: 0.4rem;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+/* Card em edição */
+.quadro-card-titulo-input,
+.quadro-card-conteudo-input,
+.quadro-card-imagem-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  color: #1a1a1a;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.3rem 0.4rem;
+  margin-bottom: 0.3rem;
+  outline: none;
+}
+
+.quadro-card-titulo-input {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.quadro-card-conteudo-input {
+  min-height: 80px;
+  resize: vertical;
+  line-height: 1.4;
+}
+
+.quadro-card-imagem-input {
+  font-family: 'Courier New', monospace;
+  font-size: 0.78rem;
+}
+
+.quadro-card-acoes {
+  display: flex;
+  gap: 4px;
+  margin-top: 0.4rem;
+}
+
+.quadro-card-acoes button {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  color: #1a1a1a;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.4rem;
+  cursor: pointer;
+}
+
+.quadro-card-acoes button:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.quadro-card-del {
+  background: rgba(139, 0, 0, 0.15) !important;
+  border-color: rgba(139, 0, 0, 0.4) !important;
+  color: #8b0000 !important;
+}
+
+.quadro-card-del:hover {
+  background: rgba(139, 0, 0, 0.3) !important;
+}
+
+/* Cursores remotos */
+.quadro-cursores {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9000;
+}
+
+.quadro-cursor {
+  position: absolute;
+  pointer-events: none;
+  transform: translate(-2px, -2px);
+  transition: left 0.05s linear, top 0.05s linear;
+}
+
+.quadro-cursor-nome {
+  display: block;
+  margin-top: 2px;
+  margin-left: 12px;
+  padding: 1px 6px;
+  color: #000;
+  font-family: var(--font-crt);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  font-weight: bold;
+  white-space: nowrap;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* ========================================
    RESPONSIVE
    ======================================== */
 @media (max-width: 768px) {
